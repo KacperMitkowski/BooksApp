@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BooksApp.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,9 +9,10 @@ namespace BooksApp.Controllers
 {
     public class HomeController : Controller
     {
+        public KMdbEntities db = new KMdbEntities();
         public ActionResult Index()
         {
-
+            
 
 
             return View();
