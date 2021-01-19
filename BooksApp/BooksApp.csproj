@@ -198,7 +198,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\src\components\app.js" />
-    <Content Include="Scripts\src\components\home.js" />
+    <Content Include="Scripts\src\components\footer.js" />
+    <Content Include="Scripts\src\components\header.js" />
+    <Content Include="Scripts\src\components\main.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\static\css\main.css" />
     <Content Include="Web.config" />

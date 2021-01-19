@@ -1,15 +1,20 @@
 ﻿import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import '../../static/css/main.css';
-import Home from '../components/home.js';
+import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import Header from '../components/header.js';
+import Main from '../components/main.js';
+import Footer from '../components/footer.js';
 
 export default class App extends React.Component {
     render() {
         return (
             <Router>
-                <div className="container">
-                    <Route exact path="/" component={Home} />
-                </div>
+                <Header />
+
+                <Switch>
+                    <Route exact path="/" component={Main} />
+                </Switch>
+
+                <Footer />
             </Router>
         );
     }

@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 
-export default class Home extends Component {
+
+export default class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -9,6 +10,7 @@ export default class Home extends Component {
     }
 
     render() {
+        
         if (this.state.books && this.state.books.length > 0) {
             console.log(this.state.books);
             return (

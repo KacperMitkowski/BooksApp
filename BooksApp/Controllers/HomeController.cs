@@ -12,9 +12,7 @@ namespace BooksApp.Controllers
         public KMdbEntities db = new KMdbEntities();
         public ActionResult Index()
         {
-            
-
-
+            ViewBag.Title = "KM";
             return View();
         }
 
