@@ -30,6 +30,14 @@
           <Property Name="isbn" Type="nvarchar" MaxLength="1000" />
           <Property Name="status" Type="nvarchar" MaxLength="1000" />
         </EntityType>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="genre_id" />
+          </Key>
+          <Property Name="genre_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="title" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="status" Type="nvarchar" MaxLength="1000" Nullable="false" />
+        </EntityType>
         <Association Name="FK_book_author">
           <End Role="author" Type="Self.author" Multiplicity="1" />
           <End Role="book" Type="Self.book" Multiplicity="*" />
@@ -42,11 +50,28 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_book_genre">
+          <End Role="genre" Type="Self.genre" Multiplicity="1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genre">
+              <PropertyRef Name="genre_id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="genre_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="KMdbModelStoreContainer">
           <EntitySet Name="author" EntityType="Self.author" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="genre" EntityType="Self.genre" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_book_author" Association="Self.FK_book_author">
             <End Role="author" EntitySet="author" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <AssociationSet Name="FK_book_genre" Association="Self.FK_book_genre">
+            <End Role="genre" EntitySet="genre" />
             <End Role="book" EntitySet="book" />
           </AssociationSet>
         </EntityContainer>
@@ -59,6 +84,11 @@
           <EntitySet Name="book" EntityType="KMdbModel.book" />
           <AssociationSet Name="FK_book_author" Association="KMdbModel.FK_book_author">
             <End Role="author" EntitySet="author" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
+          <EntitySet Name="genre" EntityType="KMdbModel.genre" />
+          <AssociationSet Name="FK_book_genre" Association="KMdbModel.FK_book_genre">
+            <End Role="genre" EntitySet="genre" />
             <End Role="book" EntitySet="book" />
           </AssociationSet>
         </EntityContainer>
@@ -88,6 +118,7 @@
           <Property Name="isbn" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="author" Relationship="KMdbModel.FK_book_author" FromRole="book" ToRole="author" />
+          <NavigationProperty Name="genre" Relationship="KMdbModel.FK_book_genre" FromRole="book" ToRole="genre" />
         </EntityType>
         <Association Name="FK_book_author">
           <End Type="KMdbModel.author" Role="author" Multiplicity="1" />
@@ -98,6 +129,27 @@
             </Principal>
             <Dependent Role="book">
               <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="genre">
+          <Key>
+            <PropertyRef Name="genre_id" />
+          </Key>
+          <Property Name="genre_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="title" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="book" Relationship="KMdbModel.FK_book_genre" FromRole="genre" ToRole="book" />
+        </EntityType>
+        <Association Name="FK_book_genre">
+          <End Type="KMdbModel.genre" Role="genre" Multiplicity="1" />
+          <End Type="KMdbModel.book" Role="book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="genre">
+              <PropertyRef Name="genre_id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="genre_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -131,6 +183,15 @@
                 <ScalarProperty Name="author_id" ColumnName="author_id" />
                 <ScalarProperty Name="genre_id" ColumnName="genre_id" />
                 <ScalarProperty Name="book_id" ColumnName="book_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="genre">
+            <EntityTypeMapping TypeName="KMdbModel.genre">
+              <MappingFragment StoreEntitySet="genre">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="genre_id" ColumnName="genre_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

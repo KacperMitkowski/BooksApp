@@ -8,6 +8,8 @@
         <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="0.75" PointY="1" />
         <EntityTypeShape EntityType="KMdbModel.book" Width="1.5" PointX="3" PointY="1" />
         <AssociationConnector Association="KMdbModel.FK_book_author" />
+        <EntityTypeShape EntityType="KMdbModel.genre" Width="1.5" PointX="5.625" PointY="1.875" />
+        <AssociationConnector Association="KMdbModel.FK_book_genre" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

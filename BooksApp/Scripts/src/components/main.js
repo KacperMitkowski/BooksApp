@@ -12,7 +12,6 @@ export default class Main extends Component {
     
 
     render() {
-        
         if (this.state.books && this.state.books.length > 0) {
             return (
                 <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
@@ -37,7 +36,7 @@ export default class Main extends Component {
                                     <td>{`${book.author.first_name} ${book.author.last_name}`}</td>
                                     <td>{book.description}</td>
                                     <td>{this.formatDate(book.publication_date)}</td>
-                                    <td>{book.genre_id}</td>
+                                    <td>{book.genre.title}</td>
                                     <td>{book.isbn}</td>
                                     <td></td>
                                 </tr>
@@ -62,6 +61,7 @@ export default class Main extends Component {
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 this.setState({
                     books: data
                 })

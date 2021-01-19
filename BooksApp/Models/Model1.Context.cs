@@ -27,5 +27,6 @@ namespace BooksApp.Models
     
         public virtual DbSet<author> author { get; set; }
         public virtual DbSet<book> book { get; set; }
+        public virtual DbSet<genre> genre { get; set; }
     }
 }
