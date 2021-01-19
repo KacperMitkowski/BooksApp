@@ -5,7 +5,9 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="49efc99da8e54de3a82a2d5a20e9d91f" Name="Diagram1">
-        <EntityTypeShape EntityType="KMdbModel.book" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="KMdbModel.book" Width="1.5" PointX="3" PointY="1" />
+        <AssociationConnector Association="KMdbModel.FK_book_author" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -25,6 +25,7 @@ namespace BooksApp.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<author> author { get; set; }
         public virtual DbSet<book> book { get; set; }
     }
 }

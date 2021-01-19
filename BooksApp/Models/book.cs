@@ -15,11 +15,14 @@ namespace BooksApp.Models
     public partial class book
     {
         public long book_id { get; set; }
-        public Nullable<long> genre_id { get; set; }
-        public Nullable<long> author_id { get; set; }
+        public long genre_id { get; set; }
+        public long author_id { get; set; }
         public string title { get; set; }
         public string description { get; set; }
         public Nullable<System.DateTime> publication_date { get; set; }
         public string isbn { get; set; }
+        public string status { get; set; }
+    
+        public virtual author author { get; set; }
     }
 }

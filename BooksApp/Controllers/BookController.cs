@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using BooksApp.Models;
+using Newtonsoft.Json;
 
 namespace BooksApp.Controllers
 {
@@ -19,8 +20,13 @@ namespace BooksApp.Controllers
         public ActionResult Index()
         {
             var books = db.book.ToList();
-            books.ForEach(book => book.publication_date.ToString());
-            return Json(new { books = books }, JsonRequestBehavior.AllowGet);
+            var list = JsonConvert.SerializeObject(books,
+                Formatting.None,
+                new JsonSerializerSettings()
+                {
+                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                });
+            return Content(list, "application/json");
         }
 
         // GET: Book/Details/5

@@ -5,49 +5,125 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="KMdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="author">
+          <Key>
+            <PropertyRef Name="author_id" />
+          </Key>
+          <Property Name="author_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="first_name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="last_name" Type="nvarchar" MaxLength="1000" Nullable="false" />
+          <Property Name="birth_date" Type="date" Nullable="false" />
+          <Property Name="death_date" Type="date" />
+          <Property Name="nationality" Type="nvarchar" MaxLength="1000" />
+          <Property Name="status" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
         <EntityType Name="book">
           <Key>
             <PropertyRef Name="book_id" />
           </Key>
           <Property Name="book_id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="genre_id" Type="bigint" />
-          <Property Name="author_id" Type="bigint" />
+          <Property Name="genre_id" Type="bigint" Nullable="false" />
+          <Property Name="author_id" Type="bigint" Nullable="false" />
           <Property Name="title" Type="nvarchar" MaxLength="1000" />
           <Property Name="description" Type="nvarchar" MaxLength="1000" />
-          <Property Name="publication_date" Type="datetime" />
+          <Property Name="publication_date" Type="date" />
           <Property Name="isbn" Type="nvarchar" MaxLength="1000" />
+          <Property Name="status" Type="nvarchar" MaxLength="1000" />
         </EntityType>
+        <Association Name="FK_book_author">
+          <End Role="author" Type="Self.author" Multiplicity="1" />
+          <End Role="book" Type="Self.book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="author">
+              <PropertyRef Name="author_id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="KMdbModelStoreContainer">
+          <EntitySet Name="author" EntityType="Self.author" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_book_author" Association="Self.FK_book_author">
+            <End Role="author" EntitySet="author" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KMdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="KMdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="author" EntityType="KMdbModel.author" />
           <EntitySet Name="book" EntityType="KMdbModel.book" />
+          <AssociationSet Name="FK_book_author" Association="KMdbModel.FK_book_author">
+            <End Role="author" EntitySet="author" />
+            <End Role="book" EntitySet="book" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="author">
+          <Key>
+            <PropertyRef Name="author_id" />
+          </Key>
+          <Property Name="author_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="first_name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="last_name" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="birth_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="death_date" Type="DateTime" Precision="0" />
+          <Property Name="nationality" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="book" Relationship="KMdbModel.FK_book_author" FromRole="author" ToRole="book" />
+        </EntityType>
         <EntityType Name="book">
           <Key>
             <PropertyRef Name="book_id" />
           </Key>
           <Property Name="book_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="genre_id" Type="Int64" />
-          <Property Name="author_id" Type="Int64" />
+          <Property Name="genre_id" Type="Int64" Nullable="false" />
+          <Property Name="author_id" Type="Int64" Nullable="false" />
           <Property Name="title" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="publication_date" Type="DateTime" Precision="3" />
+          <Property Name="publication_date" Type="DateTime" Precision="0" />
           <Property Name="isbn" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="author" Relationship="KMdbModel.FK_book_author" FromRole="book" ToRole="author" />
         </EntityType>
+        <Association Name="FK_book_author">
+          <End Type="KMdbModel.author" Role="author" Multiplicity="1" />
+          <End Type="KMdbModel.book" Role="book" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="author">
+              <PropertyRef Name="author_id" />
+            </Principal>
+            <Dependent Role="book">
+              <PropertyRef Name="author_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KMdbModelStoreContainer" CdmEntityContainer="KMdbEntities">
+          <EntitySetMapping Name="author">
+            <EntityTypeMapping TypeName="KMdbModel.author">
+              <MappingFragment StoreEntitySet="author">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="nationality" ColumnName="nationality" />
+                <ScalarProperty Name="death_date" ColumnName="death_date" />
+                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
+                <ScalarProperty Name="last_name" ColumnName="last_name" />
+                <ScalarProperty Name="first_name" ColumnName="first_name" />
+                <ScalarProperty Name="author_id" ColumnName="author_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="book">
             <EntityTypeMapping TypeName="KMdbModel.book">
               <MappingFragment StoreEntitySet="book">
+                <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="isbn" ColumnName="isbn" />
                 <ScalarProperty Name="publication_date" ColumnName="publication_date" />
                 <ScalarProperty Name="description" ColumnName="description" />
