@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -17,7 +18,8 @@ namespace BooksApp.Controllers
         // GET: Book
         public ActionResult Index()
         {
-            var books = db.books.ToList();
+            var books = db.book.ToList();
+            books.ForEach(book => book.publication_date.ToString());
             return Json(new { books = books }, JsonRequestBehavior.AllowGet);
         }
 
@@ -28,7 +30,7 @@ namespace BooksApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            books books = db.books.Find(id);
+            book books = db.book.Find(id);
             if (books == null)
             {
                 return HttpNotFound();
@@ -47,11 +49,11 @@ namespace BooksApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "book_id,genre_id,author_id,title,description,publication_date,isbn")] books books)
+        public ActionResult Create([Bind(Include = "book_id,genre_id,author_id,title,description,publication_date,isbn")] book books)
         {
             if (ModelState.IsValid)
             {
-                db.books.Add(books);
+                db.book.Add(books);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -66,7 +68,7 @@ namespace BooksApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            books books = db.books.Find(id);
+            book books = db.book.Find(id);
             if (books == null)
             {
                 return HttpNotFound();
@@ -79,7 +81,7 @@ namespace BooksApp.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "book_id,genre_id,author_id,title,description,publication_date,isbn")] books books)
+        public ActionResult Edit([Bind(Include = "book_id,genre_id,author_id,title,description,publication_date,isbn")] book books)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +99,7 @@ namespace BooksApp.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            books books = db.books.Find(id);
+            book books = db.book.Find(id);
             if (books == null)
             {
                 return HttpNotFound();
@@ -110,8 +112,8 @@ namespace BooksApp.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)
         {
-            books books = db.books.Find(id);
-            db.books.Remove(books);
+            book books = db.book.Find(id);
+            db.book.Remove(books);
             db.SaveChanges();
             return RedirectToAction("Index");
         }

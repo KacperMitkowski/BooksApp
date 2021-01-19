@@ -4,8 +4,8 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="KMdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="books">
+    <Schema Namespace="KMdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="book">
           <Key>
             <PropertyRef Name="book_id" />
           </Key>
@@ -18,14 +18,16 @@
           <Property Name="isbn" Type="nvarchar" MaxLength="1000" />
         </EntityType>
         <EntityContainer Name="KMdbModelStoreContainer">
-          <EntitySet Name="books" EntityType="Self.books" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="book" EntityType="Self.book" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="KMdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="books">
+        <EntityContainer Name="KMdbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="book" EntityType="KMdbModel.book" />
+        </EntityContainer>
+        <EntityType Name="book">
           <Key>
             <PropertyRef Name="book_id" />
           </Key>
@@ -37,25 +39,22 @@
           <Property Name="publication_date" Type="DateTime" Precision="3" />
           <Property Name="isbn" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
         </EntityType>
-        <EntityContainer Name="KMdbEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="books" EntityType="Self.books" />
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="KMdbModelStoreContainer" CdmEntityContainer="KMdbEntities">
-          <EntitySetMapping Name="books">
-            <EntityTypeMapping TypeName="KMdbModel.books">
-              <MappingFragment StoreEntitySet="books">
-                <ScalarProperty Name="book_id" ColumnName="book_id" />
-                <ScalarProperty Name="genre_id" ColumnName="genre_id" />
-                <ScalarProperty Name="author_id" ColumnName="author_id" />
-                <ScalarProperty Name="title" ColumnName="title" />
-                <ScalarProperty Name="description" ColumnName="description" />
-                <ScalarProperty Name="publication_date" ColumnName="publication_date" />
+          <EntitySetMapping Name="book">
+            <EntityTypeMapping TypeName="KMdbModel.book">
+              <MappingFragment StoreEntitySet="book">
                 <ScalarProperty Name="isbn" ColumnName="isbn" />
+                <ScalarProperty Name="publication_date" ColumnName="publication_date" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="author_id" ColumnName="author_id" />
+                <ScalarProperty Name="genre_id" ColumnName="genre_id" />
+                <ScalarProperty Name="book_id" ColumnName="book_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

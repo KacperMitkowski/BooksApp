@@ -12,7 +12,7 @@ namespace BooksApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class books
+    public partial class book
     {
         public long book_id { get; set; }
         public Nullable<long> genre_id { get; set; }
