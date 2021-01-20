@@ -12,18 +12,17 @@ namespace BooksApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class book
+    public partial class log
     {
-        public long book_id { get; set; }
-        public long genre_id { get; set; }
-        public long author_id { get; set; }
-        public string title { get; set; }
-        public string description { get; set; }
-        public Nullable<System.DateTime> publication_date { get; set; }
-        public string isbn { get; set; }
-        public string status { get; set; }
+        public long log_id { get; set; }
+        public Nullable<long> author_id { get; set; }
+        public Nullable<long> admin_id { get; set; }
+        public string event_name { get; set; }
+        public Nullable<System.DateTime> event_date { get; set; }
+        public string old_value { get; set; }
+        public string new_value { get; set; }
     
-        public virtual genre genre { get; set; }
+        public virtual admin admin { get; set; }
         public virtual author author { get; set; }
     }
 }

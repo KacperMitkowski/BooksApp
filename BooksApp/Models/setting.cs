@@ -12,18 +12,18 @@ namespace BooksApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class genre
+    public partial class setting
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public genre()
+        public setting()
         {
-            this.book = new HashSet<book>();
+            this.group_setting = new HashSet<group_setting>();
         }
     
-        public long genre_id { get; set; }
-        public string title { get; set; }
+        public long setting_id { get; set; }
+        public string name { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<book> book { get; set; }
+        public virtual ICollection<group_setting> group_setting { get; set; }
     }
 }
