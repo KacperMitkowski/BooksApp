@@ -20,6 +20,8 @@ export default class Header extends Component {
                         </li>
                         <li class="nav-item">
                             <Link to="/login" className='nav-link'>Logowanie</Link>
+                        </li><li class="nav-item">
+                            <Link to="/register" className='nav-link'>Rejestracja</Link>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
