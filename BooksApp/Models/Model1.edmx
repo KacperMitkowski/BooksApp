@@ -22,9 +22,6 @@
           <Property Name="group_id" Type="bigint" Nullable="false" />
           <Property Name="first_name" Type="nvarchar" MaxLength="1000" />
           <Property Name="last_name" Type="nvarchar" MaxLength="1000" />
-          <Property Name="birth_date" Type="date" />
-          <Property Name="death_date" Type="date" />
-          <Property Name="nationality" Type="nvarchar" MaxLength="1000" />
           <Property Name="login" Type="nvarchar" MaxLength="1000" />
           <Property Name="password" Type="nvarchar" MaxLength="1000" />
           <Property Name="status" Type="nvarchar" MaxLength="1000" />
@@ -240,7 +237,6 @@
             <End Role="group_setting" EntitySet="group_setting" />
           </AssociationSet>
           <EntitySet Name="admin" EntityType="KMdbModel.admin" />
-          <EntitySet Name="author" EntityType="KMdbModel.author" />
           <EntitySet Name="group" EntityType="KMdbModel.group" />
           <AssociationSet Name="FK_admin_group" Association="KMdbModel.FK_admin_group">
             <End Role="group" EntitySet="group" />
@@ -250,6 +246,11 @@
             <End Role="admin" EntitySet="admin" />
             <End Role="log" EntitySet="log" />
           </AssociationSet>
+          <AssociationSet Name="FK_group_setting_group" Association="KMdbModel.FK_group_setting_group">
+            <End Role="group" EntitySet="group" />
+            <End Role="group_setting" EntitySet="group_setting" />
+          </AssociationSet>
+          <EntitySet Name="author" EntityType="KMdbModel.author" />
           <AssociationSet Name="FK_author_group" Association="KMdbModel.FK_author_group">
             <End Role="group" EntitySet="group" />
             <End Role="author" EntitySet="author" />
@@ -261,10 +262,6 @@
           <AssociationSet Name="FK_log_author" Association="KMdbModel.FK_log_author">
             <End Role="author" EntitySet="author" />
             <End Role="log" EntitySet="log" />
-          </AssociationSet>
-          <AssociationSet Name="FK_group_setting_group" Association="KMdbModel.FK_group_setting_group">
-            <End Role="group" EntitySet="group" />
-            <End Role="group_setting" EntitySet="group_setting" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="book">
@@ -357,24 +354,6 @@
           <NavigationProperty Name="group" Relationship="KMdbModel.FK_admin_group" FromRole="admin" ToRole="group" />
           <NavigationProperty Name="log" Relationship="KMdbModel.FK_log_admin" FromRole="admin" ToRole="log" />
         </EntityType>
-        <EntityType Name="author">
-          <Key>
-            <PropertyRef Name="author_id" />
-          </Key>
-          <Property Name="author_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="group_id" Type="Int64" Nullable="false" />
-          <Property Name="first_name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="last_name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="birth_date" Type="DateTime" Precision="0" />
-          <Property Name="death_date" Type="DateTime" Precision="0" />
-          <Property Name="nationality" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="login" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="password" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <Property Name="status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="group" Relationship="KMdbModel.FK_author_group" FromRole="author" ToRole="group" />
-          <NavigationProperty Name="book" Relationship="KMdbModel.FK_book_author" FromRole="author" ToRole="book" />
-          <NavigationProperty Name="log" Relationship="KMdbModel.FK_log_author" FromRole="author" ToRole="log" />
-        </EntityType>
         <EntityType Name="group">
           <Key>
             <PropertyRef Name="group_id" />
@@ -382,8 +361,8 @@
           <Property Name="group_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="admin" Relationship="KMdbModel.FK_admin_group" FromRole="group" ToRole="admin" />
-          <NavigationProperty Name="author" Relationship="KMdbModel.FK_author_group" FromRole="group" ToRole="author" />
           <NavigationProperty Name="group_setting" Relationship="KMdbModel.FK_group_setting_group" FromRole="group" ToRole="group_setting" />
+          <NavigationProperty Name="author" Relationship="KMdbModel.FK_author_group" FromRole="group" ToRole="author" />
         </EntityType>
         <Association Name="FK_admin_group">
           <End Type="KMdbModel.group" Role="group" Multiplicity="1" />
@@ -409,6 +388,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_group_setting_group">
+          <End Type="KMdbModel.group" Role="group" Multiplicity="1" />
+          <End Type="KMdbModel.group_setting" Role="group_setting" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="group">
+              <PropertyRef Name="group_id" />
+            </Principal>
+            <Dependent Role="group_setting">
+              <PropertyRef Name="group_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="author">
+          <Key>
+            <PropertyRef Name="author_id" />
+          </Key>
+          <Property Name="author_id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="group_id" Type="Int64" Nullable="false" />
+          <Property Name="first_name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="last_name" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="login" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="group" Relationship="KMdbModel.FK_author_group" FromRole="author" ToRole="group" />
+          <NavigationProperty Name="book" Relationship="KMdbModel.FK_book_author" FromRole="author" ToRole="book" />
+          <NavigationProperty Name="log" Relationship="KMdbModel.FK_log_author" FromRole="author" ToRole="log" />
+        </EntityType>
         <Association Name="FK_author_group">
           <End Type="KMdbModel.group" Role="group" Multiplicity="1" />
           <End Type="KMdbModel.author" Role="author" Multiplicity="*" />
@@ -442,18 +448,6 @@
             </Principal>
             <Dependent Role="log">
               <PropertyRef Name="author_id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_group_setting_group">
-          <End Type="KMdbModel.group" Role="group" Multiplicity="1" />
-          <End Type="KMdbModel.group_setting" Role="group_setting" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="group">
-              <PropertyRef Name="group_id" />
-            </Principal>
-            <Dependent Role="group_setting">
-              <PropertyRef Name="group_id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -525,27 +519,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="group">
+            <EntityTypeMapping TypeName="KMdbModel.group">
+              <MappingFragment StoreEntitySet="group">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="group_id" ColumnName="group_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="author">
             <EntityTypeMapping TypeName="KMdbModel.author">
               <MappingFragment StoreEntitySet="author">
                 <ScalarProperty Name="status" ColumnName="status" />
                 <ScalarProperty Name="password" ColumnName="password" />
                 <ScalarProperty Name="login" ColumnName="login" />
-                <ScalarProperty Name="nationality" ColumnName="nationality" />
-                <ScalarProperty Name="death_date" ColumnName="death_date" />
-                <ScalarProperty Name="birth_date" ColumnName="birth_date" />
                 <ScalarProperty Name="last_name" ColumnName="last_name" />
                 <ScalarProperty Name="first_name" ColumnName="first_name" />
                 <ScalarProperty Name="group_id" ColumnName="group_id" />
                 <ScalarProperty Name="author_id" ColumnName="author_id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="group">
-            <EntityTypeMapping TypeName="KMdbModel.group">
-              <MappingFragment StoreEntitySet="group">
-                <ScalarProperty Name="name" ColumnName="name" />
-                <ScalarProperty Name="group_id" ColumnName="group_id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

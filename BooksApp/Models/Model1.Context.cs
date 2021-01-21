@@ -31,7 +31,7 @@ namespace BooksApp.Models
         public virtual DbSet<group_setting> group_setting { get; set; }
         public virtual DbSet<setting> setting { get; set; }
         public virtual DbSet<admin> admin { get; set; }
-        public virtual DbSet<author> author { get; set; }
         public virtual DbSet<group> group { get; set; }
+        public virtual DbSet<author> author { get; set; }
     }
 }

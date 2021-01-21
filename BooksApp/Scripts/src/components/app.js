@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
 import Header from '../components/header.js';
 import Main from '../components/main.js';
 import Footer from '../components/footer.js';
-import LoginForm from '../components/loginForm.js'
+import RegisterForm from './registerForm.js'
 
 export default class App extends React.Component {
     render() {
@@ -13,7 +13,7 @@ export default class App extends React.Component {
 
                 <Switch>
                     <Route exact path="/" component={Main} />
-                    <Route exact path="/login" component={LoginForm} />
+                    <Route exact path="/register" component={RegisterForm} />
                 </Switch>
 
                 <Footer />

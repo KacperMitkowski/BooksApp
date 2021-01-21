@@ -18,8 +18,8 @@ namespace BooksApp.Models
         public group()
         {
             this.admin = new HashSet<admin>();
-            this.author = new HashSet<author>();
             this.group_setting = new HashSet<group_setting>();
+            this.author = new HashSet<author>();
         }
     
         public long group_id { get; set; }
@@ -28,8 +28,8 @@ namespace BooksApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<admin> admin { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<author> author { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<group_setting> group_setting { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<author> author { get; set; }
     }
 }

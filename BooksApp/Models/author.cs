@@ -25,9 +25,6 @@ namespace BooksApp.Models
         public long group_id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
-        public Nullable<System.DateTime> birth_date { get; set; }
-        public Nullable<System.DateTime> death_date { get; set; }
-        public string nationality { get; set; }
         public string login { get; set; }
         public string password { get; set; }
         public string status { get; set; }
