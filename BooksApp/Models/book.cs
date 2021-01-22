@@ -23,7 +23,7 @@ namespace BooksApp.Models
         public string isbn { get; set; }
         public string status { get; set; }
     
-        public virtual genre genre { get; set; }
         public virtual author author { get; set; }
+        public virtual genre genre { get; set; }
     }
 }

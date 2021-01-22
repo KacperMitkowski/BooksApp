@@ -17,19 +17,21 @@ namespace BooksApp.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public author()
         {
+            this.author_group = new HashSet<author_group>();
             this.book = new HashSet<book>();
             this.log = new HashSet<log>();
         }
     
         public long author_id { get; set; }
-        public long group_id { get; set; }
+        public Nullable<long> author_group_id { get; set; }
         public string first_name { get; set; }
         public string last_name { get; set; }
         public string login { get; set; }
         public string password { get; set; }
         public string status { get; set; }
     
-        public virtual group group { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<author_group> author_group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<book> book { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

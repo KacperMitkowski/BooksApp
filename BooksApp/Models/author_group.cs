@@ -12,13 +12,13 @@ namespace BooksApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class group_setting
+    public partial class author_group
     {
-        public long group_setting_id { get; set; }
+        public long author_group_id { get; set; }
+        public long author_id { get; set; }
         public long group_id { get; set; }
-        public long setting_id { get; set; }
     
+        public virtual author author { get; set; }
         public virtual group group { get; set; }
-        public virtual setting setting { get; set; }
     }
 }

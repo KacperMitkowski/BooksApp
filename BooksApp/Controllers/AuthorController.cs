@@ -65,8 +65,14 @@ namespace BooksApp.Controllers
 
                 if (formOk == true)
                 {
-                    author.group = groupForAuthor;
-                    var newAuthor = db.author.Add(author);
+                    var group = db.group.FirstOrDefault(x => x.name == "Author");
+                    var newAuthorGroup = db.author_group.Add(new author_group()
+                    {
+                        author = author,
+                        group = group
+                    });
+                    author.password = hashedPassword;
+
                     var newLog = db.log.Add(new log()
                     {
                         author = author,
@@ -74,6 +80,14 @@ namespace BooksApp.Controllers
                         event_date = DateTime.Now
                     });
                     db.SaveChanges();
+
+                    var newAuthorGroupId = db.author_group.FirstOrDefault(x => x.author_id == author.author_id && x.group_id == group.group_id).author_group_id;
+                    author createdAuthor = db.author.FirstOrDefault(x => x.author_id == author.author_id);
+                    createdAuthor.author_group_id = newAuthorGroupId;
+
+                    db.Entry(createdAuthor).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+
                     return Json(new { errorMessages = errorMessages, author = author, success = true }, JsonRequestBehavior.AllowGet);
                 }
                 else

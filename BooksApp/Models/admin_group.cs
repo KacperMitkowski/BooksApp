@@ -12,21 +12,20 @@ namespace BooksApp.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class admin
+    public partial class admin_group
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public admin()
+        public admin_group()
         {
-            this.log = new HashSet<log>();
+            this.admin = new HashSet<admin>();
         }
     
+        public long admin_group_id { get; set; }
         public long admin_id { get; set; }
-        public Nullable<long> admin_group_id { get; set; }
-        public string login { get; set; }
-        public string password { get; set; }
+        public long group_id { get; set; }
     
-        public virtual admin_group admin_group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<log> log { get; set; }
+        public virtual ICollection<admin> admin { get; set; }
+        public virtual group group { get; set; }
     }
 }
