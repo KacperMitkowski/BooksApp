@@ -7,7 +7,8 @@ export default class RegisterForm extends Component {
         super(props);
         this.state = {
             errorMessages: [],
-            author: null
+            author: null,
+            registrationSuccess: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -34,23 +35,33 @@ export default class RegisterForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 this.setState({
                     errorMessages: data.errorMessages,
-                    author: data.author
+                    author: data.author,
+                    registrationSuccess: data.registrationSuccess
                 })
             }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
     }
 
     render() {
+        if (this.state.registrationSuccess && this.state.registrationSuccess == true) {
+            return(
+                <div class="alert alert-success" role="alert">
+                Udana rejestracja!
+            </div>)
+        }
+
+
         return (
             <React.Fragment>
                 {this.state.errorMessages.map((errorMessage, i) => {
-                    return (
-                        <div class="alert alert-danger" role="alert">
-                            {i + 1} - {errorMessage}
-                        </div>
-                    )
-                })}
+                        return (
+                            <div class="alert alert-danger" role="alert">
+                                {i + 1} - {errorMessage}
+                            </div>
+                        )
+                    })}
                 <form onSubmit={this.handleSubmit} id="registrationForm">
                     <div class="form-row">
                         <div class="form-group col-md-6">

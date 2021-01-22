@@ -17,7 +17,7 @@ namespace BooksApp.Controllers
             return View();
         }
 
-        // POST: Book/Create
+        // POST: Author/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -26,20 +26,23 @@ namespace BooksApp.Controllers
             var formOk = true;
             List<string> errorMessages = new List<string>();
 
-            if(author == null)
+            // backend validation
+            if (author == null)
             {
                 errorMessages.Add("Nie wprowadzono autora");
                 formOk = false;
             }
 
-            if(author != null && (string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password)))
+            // if empty data
+            if (author != null && (string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password)))
             {
                 errorMessages.Add("Braki w następujących polach: imię, nazwisko, login, hasło");
                 formOk = false;
             }
 
+            // if login exists in db
             List<author> authorsFromDb = db.author.Select(x => x).ToList();
-            if(authorsFromDb != null)
+            if (authorsFromDb != null)
             {
                 foreach (var authorFromDb in authorsFromDb)
                 {
@@ -54,9 +57,9 @@ namespace BooksApp.Controllers
 
             try
             {
+                // if data ok, try hash password
                 var hashedPassword = Authentication.HashPassword(author.password);
                 var groupForAuthor = db.group.FirstOrDefault(x => x.name == "Author");
-
                 if (hashedPassword == null || groupForAuthor == null)
                 {
                     formOk = false;
@@ -81,45 +84,24 @@ namespace BooksApp.Controllers
                     });
                     db.SaveChanges();
 
-                    var newAuthorGroupId = db.author_group.FirstOrDefault(x => x.author_id == author.author_id && x.group_id == group.group_id).author_group_id;
                     author createdAuthor = db.author.FirstOrDefault(x => x.author_id == author.author_id);
-                    createdAuthor.author_group_id = newAuthorGroupId;
+                    createdAuthor.author_group_id = db.author_group.FirstOrDefault(x => x.author_id == author.author_id && x.group_id == group.group_id).author_group_id;
 
                     db.Entry(createdAuthor).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
 
-                    return Json(new { errorMessages = errorMessages, author = author, success = true }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessages = new List<string>(), author = (author)null, registrationSuccess = true }, JsonRequestBehavior.AllowGet);
                 }
                 else
                 {
-                    return Json(new { errorMessages = errorMessages, author = author }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessages = errorMessages, author = author, registrationSuccess = false }, JsonRequestBehavior.AllowGet);
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 errorMessages.Add("Wystąpił błąd. Przepraszamy za kłopoty techniczne");
-                return Json(new { errorMessages=errorMessages, author = author }, JsonRequestBehavior.AllowGet);
+                return Json(new { errorMessages = errorMessages, author = author, registrationSuccess = false }, JsonRequestBehavior.AllowGet);
             }
-
-            
-
-
-            /*
-            data validation
-            if the same login
-            
-            
-            if (ModelState.IsValid && formOk == true)
-            {
-                if ok -> hash password
-                add author to db with hashed password
-
-                db.author.Add(author);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            */
-
         }
     }
 }

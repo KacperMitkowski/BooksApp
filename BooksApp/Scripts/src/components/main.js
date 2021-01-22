@@ -61,7 +61,6 @@ export default class Main extends Component {
                 return response.json();
             })
             .then(data => {
-                console.log(this);
                 this.setState({
                     books: data
                 })
