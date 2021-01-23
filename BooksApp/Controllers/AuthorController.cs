@@ -11,11 +11,6 @@ namespace BooksApp.Controllers
     public class AuthorController : Controller
     {
         private KMdbEntities db = new KMdbEntities();
-        // GET: Register
-        public ActionResult Index()
-        {
-            return View();
-        }
 
         // POST: Author/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
@@ -26,39 +21,32 @@ namespace BooksApp.Controllers
             var formOk = true;
             List<string> errorMessages = new List<string>();
 
-            // backend validation
-            if (author == null)
-            {
-                errorMessages.Add("Nie wprowadzono autora");
-                formOk = false;
-            }
-
-            // if empty data
-            if (author != null && (string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password)))
-            {
-                errorMessages.Add("Braki w następujących polach: imię, nazwisko, login, hasło");
-                formOk = false;
-            }
-
-            // if login exists in db
-            List<author> authorsFromDb = db.author.Select(x => x).ToList();
-            if (authorsFromDb != null)
-            {
-                foreach (var authorFromDb in authorsFromDb)
-                {
-                    if (authorFromDb.login == author.login)
-                    {
-                        errorMessages.Add("Istnieje już autor o tym loginie");
-                        formOk = false;
-                        break;
-                    }
-                }
-            }
-
             try
             {
+                // if empty data
+                if (author == null || author.first_name == null || author.last_name == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
+                {
+                    errorMessages.Add("Braki w następujących polach: imię, nazwisko, login, hasło");
+                    formOk = false;
+                }
+
+                // if login exists in db
+                List<author> authorsFromDb = db.author.Select(x => x).ToList();
+                if (authorsFromDb != null)
+                {
+                    foreach (var authorFromDb in authorsFromDb)
+                    {
+                        if (authorFromDb.login == author.login)
+                        {
+                            errorMessages.Add("Istnieje już autor o tym loginie");
+                            formOk = false;
+                            break;
+                        }
+                    }
+                }
+
                 // if data ok, try hash password
-                var hashedPassword = Authentication.HashPassword(author.password);
+                var hashedPassword = PasswordHelper.HashPassword(author.password);
                 var groupForAuthor = db.group.FirstOrDefault(x => x.name == "Author");
                 if (hashedPassword == null || groupForAuthor == null)
                 {

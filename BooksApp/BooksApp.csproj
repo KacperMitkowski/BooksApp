@@ -128,13 +128,15 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AuthorLoginController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\Authentication.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
+    <Compile Include="Helpers\LoginHelper.cs" />
     <Compile Include="Models\admin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -229,6 +231,7 @@
     <Content Include="Scripts\src\components\app.js" />
     <Content Include="Scripts\src\components\footer.js" />
     <Content Include="Scripts\src\components\header.js" />
+    <Content Include="Scripts\src\components\loginForm.js" />
     <Content Include="Scripts\src\components\registerForm.js" />
     <Content Include="Scripts\src\components\main.js" />
     <Content Include="Scripts\src\index.js" />
@@ -250,6 +253,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\AuthorLogin\" />
     <Folder Include="Views\Auth\" />
     <Folder Include="Views\Book\" />
     <Folder Include="Views\Register\" />

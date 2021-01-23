@@ -6,7 +6,7 @@ using System.Web.Helpers;
 
 namespace BooksApp.Helpers
 {
-    public static class Authentication 
+    public static class PasswordHelper 
     {
         public static string HashPassword(string password)
         {

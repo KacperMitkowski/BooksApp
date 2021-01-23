@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// <a class="nav-link" href="/login">Logowanie</a>
+
 export default class Header extends Component {
     render() {
         return (

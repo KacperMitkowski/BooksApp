@@ -4,6 +4,7 @@ import Header from '../components/header.js';
 import Main from '../components/main.js';
 import Footer from '../components/footer.js';
 import RegisterForm from './registerForm.js'
+import LoginForm from './loginForm.js'
 
 export default class App extends React.Component {
     render() {
@@ -14,6 +15,7 @@ export default class App extends React.Component {
                 <Switch>
                     <Route exact path="/" component={Main} />
                     <Route exact path="/register" component={RegisterForm} />
+                    <Route exact path="/login" component={LoginForm} />
                 </Switch>
 
                 <Footer />
