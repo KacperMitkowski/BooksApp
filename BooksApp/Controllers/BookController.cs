@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using BooksApp.Helpers;
 using BooksApp.Models;
 using Newtonsoft.Json;
 
@@ -28,7 +29,7 @@ namespace BooksApp.Controllers
                 });
             return Content(list, "application/json");
         }
-
+        
         // GET: Book/Details/5
         public ActionResult Details(long? id)
         {

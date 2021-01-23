@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksApp", "BooksApp\BooksA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BooksApp.Tests", "BooksApp.Tests\BooksApp.Tests.csproj", "{8AFC507C-8908-4815-96A7-39F474C58A77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAPI", "WebAPI\WebAPI.csproj", "{F3082751-E6B2-4E45-9246-45D336E380A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8AFC507C-8908-4815-96A7-39F474C58A77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AFC507C-8908-4815-96A7-39F474C58A77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AFC507C-8908-4815-96A7-39F474C58A77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3082751-E6B2-4E45-9246-45D336E380A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3082751-E6B2-4E45-9246-45D336E380A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3082751-E6B2-4E45-9246-45D336E380A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3082751-E6B2-4E45-9246-45D336E380A4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

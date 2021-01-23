@@ -5,14 +5,14 @@ export default class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            books: []
+            books: [],
+            token: sessionStorage.getItem("token"),
+            author: null,
+            errorMessages: []
         };
     }
 
-    
-
     render() {
-        console.log("(main) token = " + sessionStorage.getItem("token"));
         if (this.state.books && this.state.books.length > 0) {
             return (
                 <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
@@ -51,14 +51,14 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        fetch(`Book/`)
+        fetch(`api/apiBook`)
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {
                         return { error: "Something went wrong!" };
                     });
                 }
-                
+
                 return response.json();
             })
             .then(data => {
@@ -66,6 +66,7 @@ export default class Main extends Component {
                     books: data
                 })
             });
+
     }
 
     formatDate(date) {
