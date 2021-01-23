@@ -12,6 +12,7 @@ export default class Main extends Component {
     
 
     render() {
+        console.log("(main) token = " + sessionStorage.getItem("token"));
         if (this.state.books && this.state.books.length > 0) {
             return (
                 <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>

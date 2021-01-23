@@ -11,7 +11,6 @@ export default class App extends React.Component {
         return (
             <Router>
                 <Header />
-
                 <Switch>
                     <Route exact path="/" component={Main} />
                     <Route exact path="/register" component={RegisterForm} />

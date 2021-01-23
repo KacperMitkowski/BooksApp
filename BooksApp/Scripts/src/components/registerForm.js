@@ -44,6 +44,7 @@ export default class RegisterForm extends Component {
     }
 
     render() {
+        console.log("(register) token = " + sessionStorage.getItem("token"));
         if (this.state.registrationSuccess && this.state.registrationSuccess == true) {
             return(
                 <div class="alert alert-success" role="alert">

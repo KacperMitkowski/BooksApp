@@ -6,7 +6,6 @@ export default class LoginForm extends Component {
         super(props);
         this.state = {
             errorMessages: [],
-            author: null,
             loginSuccess: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,15 +30,19 @@ export default class LoginForm extends Component {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
+                if (data.token) {
+                    sessionStorage.setItem("token", data.token);
+                }
+
                 this.setState({
                     errorMessages: data.errorMessages,
-                    author: data.author,
                     loginSuccess: data.loginSuccess
                 })
             }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
     }
 
     render() {
+        console.log("(login) token = " + sessionStorage.getItem("token"));
         if (this.state.loginSuccess && this.state.loginSuccess == true) {
             return(
                 <div class="alert alert-success" role="alert">

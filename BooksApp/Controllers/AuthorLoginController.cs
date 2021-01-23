@@ -25,17 +25,20 @@ namespace BooksApp.Controllers
                 if(author == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
                 {
                     errorMessages.Add("Nie wprowadzono loginu lub hasła");
-                    return Json(new { errorMessages = errorMessages, author = author, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
                 }
 
                 
                 if(db.author.Any(x => x.login == author.login))
                 {
-                    string hashedPasswordForUser = db.author.FirstOrDefault(x => x.login == author.login).password; 
-                    if(PasswordHelper.VerifyPassword(author.password, hashedPasswordForUser))
+                    string hashedPassword = db.author.FirstOrDefault(x => x.login == author.login).password; 
+                    if(PasswordHelper.VerifyPassword(author.password, hashedPassword))
                     {
-                        // jwt token
-                        return Json(new { errorMessages = errorMessages, author = author, loginSuccess = true }, JsonRequestBehavior.AllowGet);
+                        string token = JWTHelper.GenerateToken(author.login);
+
+                        string userFromToken = JWTHelper.ValidateToken(token);
+
+                        return Json(new { loginSuccess = true, token = token }, JsonRequestBehavior.AllowGet);
                     }
                     else
                     {
@@ -45,7 +48,7 @@ namespace BooksApp.Controllers
                 else
                 {
                     errorMessages.Add("Błędny login lub hasło");
-                    return Json(new { errorMessages = errorMessages, author = author, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
                 }
 
             }
@@ -55,8 +58,7 @@ namespace BooksApp.Controllers
                 return Json(new { errorMessages = errorMessages, author = author, loginSuccess = false }, JsonRequestBehavior.AllowGet);
             }
 
-            errorMessages.Add("Wystąpił błąd. Przepraszamy za kłopoty techniczne");
-            return Json(new { errorMessages = errorMessages, author = author, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+            return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }
