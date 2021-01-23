@@ -17,14 +17,12 @@ namespace WebAPI.Controllers
         // GET api/book
         public string Get()
         {
-            var books = db.book.ToList();
-            var list = JsonConvert.SerializeObject(books,
+            var books = JsonConvert.SerializeObject(db.book.ToList(),
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
-            var obj = Request.CreateResponse(HttpStatusCode.OK, books, Configuration.Formatters.JsonFormatter);
-            return list;
+            return books;
 
         }
 

@@ -5,7 +5,7 @@ export default class RegisterForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errorMessages: [],
+            errorMessage: null,
             author: null,
             registrationSuccess: false
         };
@@ -20,7 +20,7 @@ export default class RegisterForm extends Component {
         let firstName = document.getElementById("first_name").value;
         let lastName = document.getElementById("last_name").value;
 
-        fetch("Author/Create", {
+        fetch("api/author", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -34,11 +34,10 @@ export default class RegisterForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
+                let result = JSON.parse(data);
                 this.setState({
-                    errorMessages: data.errorMessages,
-                    author: data.author,
-                    registrationSuccess: data.registrationSuccess
+                    errorMessage: result.errorMessage,
+                    registrationSuccess: result.registrationSuccess
                 })
             }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
     }
@@ -51,17 +50,14 @@ export default class RegisterForm extends Component {
                 Udana rejestracja!
             </div>)
         }
-
-
+        
         return (
             <React.Fragment>
-                {this.state.errorMessages.map((errorMessage, i) => {
-                        return (
-                            <div class="alert alert-danger" role="alert">
-                                {i + 1} - {errorMessage}
-                            </div>
-                        )
-                    })}
+                {this.state.errorMessage ? 
+                    <div class="alert alert-danger" role="alert">
+                        {this.state.errorMessage}
+                    </div>
+                    : null}
                 <form onSubmit={this.handleSubmit} id="registrationForm">
                     <div class="form-row">
                         <div class="form-group col-md-6">
