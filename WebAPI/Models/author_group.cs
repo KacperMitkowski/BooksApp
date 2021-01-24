@@ -18,7 +18,7 @@ namespace WebAPI.Models
         public long author_id { get; set; }
         public long group_id { get; set; }
     
-        public virtual author author { get; set; }
         public virtual group group { get; set; }
+        public virtual author author { get; set; }
     }
 }

@@ -5,7 +5,7 @@ export default class LoginForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            errorMessages: [],
+            errorMessage: null,
             loginSuccess: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -33,11 +33,12 @@ export default class LoginForm extends Component {
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("author", data.author);
                     sessionStorage.setItem("loginSuccessful", true);
+                    alert("Pomyślne logowanie");
                     window.location = "/";
                 }
 
                 this.setState({
-                    errorMessages: data.errorMessages,
+                    errorMessage: data.errorMessage,
                     loginSuccess: data.loginSuccess
                 })
             }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
@@ -46,13 +47,11 @@ export default class LoginForm extends Component {
     render() {
         return (
             <React.Fragment>
-                {this.state.errorMessages.map((errorMessage, i) => {
-                        return (
-                            <div class="alert alert-danger" role="alert">
-                                {i + 1} - {errorMessage}
-                            </div>
-                        )
-                    })}
+                {this.state.errorMessage ?
+                    <div class="alert alert-danger" role="alert">
+                        {this.state.errorMessage}
+                    </div>
+                    : null}
                 <form onSubmit={this.handleSubmit} id="loginForm">
                     <div class="form-row">
                         <div class="form-group col-md-6">

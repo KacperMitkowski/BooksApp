@@ -14,26 +14,8 @@ export default class Main extends Component {
 
     render() {
         if (this.state.books) {
-            if (sessionStorage.getItem("loginSuccessful")) {
-                sessionStorage.removeItem("loginSuccessful");
-            }
-
-            if (sessionStorage.getItem("loggedOutSuccessful")) {
-                sessionStorage.removeItem("loggedOutSuccessful");
-            }
             return (
                 <React.Fragment>
-                    { this.props.showLoginSuccessfulMessage  ?
-                        <div class="alert alert-success" role="alert">
-                            Udane logowanie
-                        </div> 
-                        
-                        : null}
-                    {this.props.showLogoutSuccessfulMessage ?
-                        <div class="alert alert-primary" role="alert">
-                            Pomyślne wylogowanie!
-                        </div> : null}
-
                     <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
                         <thead className='thead-dark'>
                             <tr>
@@ -106,6 +88,8 @@ export default class Main extends Component {
             day = `0${day}`;
         }
 
-        return [day, month, year].join('-');
+        return [day, month, year].join('-'); 
     }
+
+    
 }

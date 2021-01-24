@@ -18,7 +18,7 @@ export default class Header extends Component {
                         <li className="nav-item">
                             <a className="nav-link" href="#">Autorzy</a>
                         </li>
-                        {!this.props.loggedUser ? // Show login button if author not logged in
+                        {!this.props.loggedAuthor ? // Show login button if author not logged in
                         <li className="nav-item">
                             <a href="/login" className='nav-link'>Logowanie</a>
                         </li> : null }
@@ -37,10 +37,10 @@ export default class Header extends Component {
                         </li>
                     </ul>
                 </div>
-                {this.props.loggedUser ? 
+                {this.props.loggedAuthor ? 
                     <div>
-                        Zalogowany użytkownik: {this.props.loggedUser}
-                        <button className="btn btn-outline-warning" onClick={() => this.logout()}>Wyloguj</button>
+                        Zalogowany użytkownik: {this.props.loggedAuthor}
+                        <button className="btn btn-outline-warning" onClick={() => this.logoutAuthor()}>Wyloguj</button>
                     </div>
                     
                     : null}
@@ -48,10 +48,10 @@ export default class Header extends Component {
         );
     }
 
-    logout() {
+    logoutAuthor() {
         sessionStorage.removeItem("author");
         sessionStorage.removeItem("token");
-        sessionStorage.setItem("loggedOutSuccessful", true);
+        alert("Pomyślne wylogowanie");
         window.location = "/";
     }
 }

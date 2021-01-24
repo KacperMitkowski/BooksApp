@@ -16,16 +16,14 @@ export default class App extends React.Component {
     }
 
     render() {
-        let loggedUser = sessionStorage.getItem("author");
-        let showLoginSuccessfulMessage = sessionStorage.getItem("loginSuccessful");
-        let showLogoutSuccessfulMessage = sessionStorage.getItem("loggedOutSuccessful");
+        let loggedAuthor = sessionStorage.getItem("author");
 
         return (
             <Router>
-                <Header loggedUser={loggedUser} />
+                <Header loggedAuthor={loggedAuthor} />
 
                 <Switch>
-                    <Route exact path="/" render={props => <Main {...props} showLoginSuccessfulMessage={showLoginSuccessfulMessage} showLogoutSuccessfulMessage = { showLogoutSuccessfulMessage} /> } />
+                    <Route exact path="/" render={props => <Main {...props} /> } />
                     <Route exact path="/register" component={RegisterForm} />
                     <Route exact path="/login" component={LoginForm} />
                 </Switch>

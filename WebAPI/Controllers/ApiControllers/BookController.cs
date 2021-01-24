@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using BooksApp.Helpers;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,15 +19,24 @@ namespace WebAPI.Controllers
         public string Get()
         {
             var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
-            var author = credentials.Split('=')[0];
-            var token = credentials.Split('=')[1];
+            if (credentials != null)
+            {
+                var loggedAuthor = credentials.Split('=')[0];
+                var token = credentials.Split('=')[1];
 
-            var books = JsonConvert.SerializeObject(db.book.ToList(),
+                string authorFromToken = JWTHelper.ValidateToken(token);
+                if (authorFromToken != null && loggedAuthor == authorFromToken)
+                {
+                    var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.ToList(),
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
-            return books;
+                    return authorBooks;
+                }
+            }
+
+            return null;
 
         }
 

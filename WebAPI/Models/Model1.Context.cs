@@ -27,7 +27,6 @@ namespace WebAPI.Models
     
         public virtual DbSet<admin> admin { get; set; }
         public virtual DbSet<admin_group> admin_group { get; set; }
-        public virtual DbSet<author> author { get; set; }
         public virtual DbSet<author_group> author_group { get; set; }
         public virtual DbSet<book> book { get; set; }
         public virtual DbSet<genre> genre { get; set; }
@@ -35,5 +34,6 @@ namespace WebAPI.Models
         public virtual DbSet<group_setting> group_setting { get; set; }
         public virtual DbSet<log> log { get; set; }
         public virtual DbSet<setting> setting { get; set; }
+        public virtual DbSet<author> author { get; set; }
     }
 }

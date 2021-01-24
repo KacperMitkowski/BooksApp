@@ -17,16 +17,13 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult Login([Bind(Include = "login,password")] author author)
         {
-            List<string> errorMessages = new List<string>();
 
             try
             {
                 if (author == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
                 {
-                    errorMessages.Add("Nie wprowadzono loginu lub hasła");
-                    return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessage = "Nie wprowadzono loginu lub hasła", loginSuccess = false }, JsonRequestBehavior.AllowGet);
                 }
-
 
                 if (db.author.Any(x => x.login == author.login))
                 {
@@ -41,23 +38,21 @@ namespace WebAPI.Controllers
                     }
                     else
                     {
-                        errorMessages.Add("Błędny login lub hasło");
+                        return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false }, JsonRequestBehavior.AllowGet);
                     }
                 }
                 else
                 {
-                    errorMessages.Add("Błędny login lub hasło");
-                    return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false }, JsonRequestBehavior.AllowGet);
                 }
 
             }
             catch (Exception e)
             {
-                errorMessages.Add("Wystąpił błąd. Przepraszamy za kłopoty techniczne");
-                return Json(new { errorMessages = errorMessages, author = author, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false }, JsonRequestBehavior.AllowGet);
             }
 
-            return Json(new { errorMessages = errorMessages, loginSuccess = false }, JsonRequestBehavior.AllowGet);
+            return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }
