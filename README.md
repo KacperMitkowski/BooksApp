@@ -22,6 +22,21 @@ register and log in and then he has CRUD capabilities. Request are sent from Rea
 - refine frontend with prime.ng or material design
 
 ## Screenshots:
+Logged author
 <img src="Screenshots/1.PNG"/>
+Book details
 <img src="Screenshots/2.PNG"/>
+Book edit
 <img src="Screenshots/3.PNG"/>
+Register author
+<img src="Screenshots/5.PNG"/>
+Tables structure
+<img src="Screenshots/6.PNG"/>
+EDMX structure
+<img src="Screenshots/7.PNG"/>
+React components structure
+<img src="Screenshots/8.PNG"/>
+Controllers structure
+<img src="Screenshots/9.PNG"/>
+.NET sample code
+<img src="Screenshots/10.PNG"/>
