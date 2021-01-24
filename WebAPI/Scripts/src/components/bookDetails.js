@@ -10,13 +10,18 @@ export default class BookDetails extends Component {
             if (book.book_id == bookId && token) {
                 return (
                     <React.Fragment>
+                        <div className="row mb-5">
+                            <div className="col-12 text-center">
+                                <a className="btn btn-danger btn-lg" href="/">Powrót</a>
+                            </div>
+                        </div>
                         <div class="container-fluid">
                             <div className="row mt-5 mb-5">
                                 <div className="col-12 text-center">
                                     <h1>{book.title}</h1>
                                 </div>
                             </div>
-                            <div class="row mb-5">
+                            <div class="row mb-5" style={{ fontSize: "20px" }}>
                                 <div class="col-2">Tytuł: {book.title}</div>
                                 <div class="col-2">Autor: {`${book.author.first_name} ${book.author.last_name}`}</div>
                                 <div class="col-2">Opis: {book.description}</div>
