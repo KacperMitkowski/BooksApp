@@ -56,7 +56,7 @@ export default class BookEdit extends Component {
                 }
                 this.setState({
                     errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
-                    
+
                 })
             }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
     }
@@ -87,14 +87,19 @@ export default class BookEdit extends Component {
             if (book.book_id == bookId && token && this.state.bookGenres && authors) {
                 return (
                     <React.Fragment>
-                        {
-                            this.state.errorMessage ?
-                                <div class="alert alert-danger" role="alert">
-                                    {this.state.errorMessage}
-                                </div>
-                                : null
-                        }
-                        <div class="container-fluid mt-5 mb-5">
+                        <div className="row mb-5">
+                            <div className="col-12 text-center">
+                                <a className="btn btn-danger btn-lg" href="/">Powrót</a>
+                            </div>
+                        </div>
+                        <div className="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center' }}>
+                            {
+                                this.state.errorMessage ?
+                                    <div class="alert alert-danger" role="alert">
+                                        {this.state.errorMessage}
+                                    </div>
+                                    : null
+                            }
                             <input id="book-id" value={book.book_id} hidden />
 
                             <div className="row mt-5 mb-5">
@@ -119,7 +124,7 @@ export default class BookEdit extends Component {
                                                 }
                                                 else {
                                                     return (
-                                                        <option  value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
+                                                        <option value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
                                                     )
                                                 }
                                             })}
@@ -154,7 +159,7 @@ export default class BookEdit extends Component {
                                     </div>
 
                                 </div>
-                                <button class="btn btn-primary">Edytuj</button>
+                                <button class="btn btn-primary btn-lg">Edytuj</button>
                             </form>
                         </div>
                     </React.Fragment>
