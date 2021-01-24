@@ -6,14 +6,26 @@ import Footer from '../components/footer.js';
 import RegisterForm from './registerForm.js'
 import LoginForm from './loginForm.js'
 
+
 export default class App extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+    }
+
     render() {
-        console.log("(app) token = " + sessionStorage.getItem("token"));
+        let loggedUser = sessionStorage.getItem("author");
+        let showLoginSuccessfulMessage = sessionStorage.getItem("loginSuccessful");
+        let showLogoutSuccessfulMessage = sessionStorage.getItem("loggedOutSuccessful");
+
         return (
             <Router>
-                <Header />
+                <Header loggedUser={loggedUser} />
+
                 <Switch>
-                    <Route exact path="/" component={Main} />
+                    <Route exact path="/" render={props => <Main {...props} showLoginSuccessfulMessage={showLoginSuccessfulMessage} showLogoutSuccessfulMessage = { showLogoutSuccessfulMessage} /> } />
                     <Route exact path="/register" component={RegisterForm} />
                     <Route exact path="/login" component={LoginForm} />
                 </Switch>

@@ -17,6 +17,10 @@ namespace WebAPI.Controllers
         // GET api/book
         public string Get()
         {
+            var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+            var author = credentials.Split('=')[0];
+            var token = credentials.Split('=')[1];
+
             var books = JsonConvert.SerializeObject(db.book.ToList(),
                 new JsonSerializerSettings()
                 {

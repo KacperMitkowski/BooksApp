@@ -14,44 +14,68 @@ export default class Main extends Component {
 
     render() {
         if (this.state.books) {
+            if (sessionStorage.getItem("loginSuccessful")) {
+                sessionStorage.removeItem("loginSuccessful");
+            }
+
+            if (sessionStorage.getItem("loggedOutSuccessful")) {
+                sessionStorage.removeItem("loggedOutSuccessful");
+            }
             return (
-                <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
-                    <thead className='thead-dark'>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope='col'>Tytuł</th>
-                            <th scope='col'>Autor</th>
-                            <th scope='col'>Opis</th>
-                            <th scope='col'>Data publikacji</th>
-                            <th scope='col'>Gatunek</th>
-                            <th scope='col'>ISBN</th>
-                            <th>&nbsp;</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.books.map((book, i) => {
-                            return (
-                                <tr key={`book-${i}`}>
-                                    <th scope="row">{i + 1}</th>
-                                    <td>{book.title}</td>
-                                    <td>{`${book.author.first_name} ${book.author.last_name}`}</td>
-                                    <td>{book.description}</td>
-                                    <td>{this.formatDate(book.publication_date)}</td>
-                                    <td>{book.genre.title}</td>
-                                    <td>{book.isbn}</td>
-                                    <td></td>
-                                </tr>
-                            )
-                        })}
-                    </tbody>
-                </table>
+                <React.Fragment>
+                    { this.props.showLoginSuccessfulMessage  ?
+                        <div class="alert alert-success" role="alert">
+                            Udane logowanie
+                        </div> 
+                        
+                        : null}
+                    {this.props.showLogoutSuccessfulMessage ?
+                        <div class="alert alert-primary" role="alert">
+                            Pomyślne wylogowanie!
+                        </div> : null}
+
+                    <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
+                        <thead className='thead-dark'>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope='col'>Tytuł</th>
+                                <th scope='col'>Autor</th>
+                                <th scope='col'>Opis</th>
+                                <th scope='col'>Data publikacji</th>
+                                <th scope='col'>Gatunek</th>
+                                <th scope='col'>ISBN</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.state.books.map((book, i) => {
+                                return (
+                                    <tr key={`book-${i}`}>
+                                        <th scope="row">{i + 1}</th>
+                                        <td>{book.title}</td>
+                                        <td>{`${book.author.first_name} ${book.author.last_name}`}</td>
+                                        <td>{book.description}</td>
+                                        <td>{this.formatDate(book.publication_date)}</td>
+                                        <td>{book.genre.title}</td>
+                                        <td>{book.isbn}</td>
+                                        <td></td>
+                                    </tr>
+                                )
+                            })}
+                        </tbody>
+                    </table>
+                </React.Fragment>
             );
         }
         return null;
     }
 
     componentDidMount() {
-        fetch(`api/book`)
+        fetch(`api/book`, {
+            headers: new Headers({
+                'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
+            })
+            })
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {

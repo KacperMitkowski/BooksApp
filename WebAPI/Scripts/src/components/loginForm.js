@@ -17,7 +17,7 @@ export default class LoginForm extends Component {
         let login = document.getElementById("login").value;
         let password = document.getElementById("password").value;
 
-        fetch("AuthorLogin/LoginAuthor", {
+        fetch("AuthorLogin/Login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -29,9 +29,11 @@ export default class LoginForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
-                if (data.token) {
+                if (data.token && data.author) {
                     sessionStorage.setItem("token", data.token);
+                    sessionStorage.setItem("author", data.author);
+                    sessionStorage.setItem("loginSuccessful", true);
+                    window.location = "/";
                 }
 
                 this.setState({
@@ -42,14 +44,6 @@ export default class LoginForm extends Component {
     }
 
     render() {
-        console.log("(login) token = " + sessionStorage.getItem("token"));
-        if (this.state.loginSuccess && this.state.loginSuccess == true) {
-            return(
-                <div class="alert alert-success" role="alert">
-                Udane logowanie!
-            </div>)
-        }
-
         return (
             <React.Fragment>
                 {this.state.errorMessages.map((errorMessage, i) => {
