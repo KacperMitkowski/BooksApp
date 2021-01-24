@@ -305,6 +305,8 @@
     <Content Include="Scripts\src\components\registerForm.js" />
     <Content Include="Scripts\src\index.js" />
     <Content Include="Scripts\static\css\main.css" />
+    <Content Include="Scripts\static\img\background.png" />
+    <Content Include="Scripts\static\img\icon.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

@@ -1,3 +1,22 @@
 ﻿body {
-    background-color: yellow;
+    background-image: url("../img/background.png")!important;
 }
+
+#icon {
+    background-image: url("../img/icon.png") !important;
+    background-repeat: no-repeat !important;
+    width: 150px !important;
+    height: 150px !important;
+}
+
+.nav-link {
+    font-size: 20px !important;
+    border-right: 1px solid #000 !important;
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+}
+
+.nav-link:hover {
+    background-color: #eee!important;
+}
+

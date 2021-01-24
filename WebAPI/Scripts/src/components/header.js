@@ -6,7 +6,7 @@ export default class Header extends Component {
         return (
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
                 
-                <a className="navbar-brand" href="/">LOGO</a>
+                <a className="navbar-brand" href="/" id="icon"></a>
                 <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -20,27 +20,17 @@ export default class Header extends Component {
                         </li>
                         {!this.props.loggedAuthor ? // Show login button if author not logged in
                         <li className="nav-item">
-                            <a href="/login" className='nav-link'>Logowanie</a>
+                            <a href="/login" className='nav-link'>Logowanie autora</a>
                         </li> : null }
                         <li className="nav-item">
-                            <a href="/register" className='nav-link'>Rejestracja</a>
-                        </li>
-                        <li className="nav-item dropdown">
-                            <a className="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Dodatkowe akcje
-                            </a>
-                            <div className="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <a className="dropdown-item" href="#">Akcja 1</a>
-                                <a className="dropdown-item" href="#">Akcja 2</a>
-                                <a className="dropdown-item" href="#">Akcja 3</a>
-                            </div>
+                            <a href="/register" className='nav-link'>Rejestracja autora</a>
                         </li>
                     </ul>
                 </div>
-                {this.props.loggedAuthor ? 
-                    <div>
-                        Zalogowany użytkownik: {this.props.loggedAuthor}
-                        <button className="btn btn-outline-warning" onClick={() => this.logoutAuthor()}>Wyloguj</button>
+                {this.props.loggedAuthor ?
+                    <div style={{ marginRight: "50px", fontSize: "20px" }}>
+                        Zalogowany użytkownik: <span style={{ color: "#3ead44"}}> {this.props.loggedAuthor} </span>
+                        <button className="btn btn-outline-warning btn-lg" style={{ marginLeft: "30px" }} onClick={() => this.logoutAuthor()}>Wyloguj</button>
                     </div>
                     
                     : null}

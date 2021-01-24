@@ -67,8 +67,6 @@ export default class BookEdit extends Component {
         let bookId = this.props.match.params.id;
         let token = sessionStorage.getItem("token");
 
-
-
         for (let book of books) {
             if (book.book_id == bookId && token && this.state.flag == true) {
 

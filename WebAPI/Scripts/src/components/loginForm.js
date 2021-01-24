@@ -46,26 +46,30 @@ export default class LoginForm extends Component {
 
     render() {
         return (
-            <React.Fragment>
+            <div classNameName="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center'  }}>
                 {this.state.errorMessage ?
-                    <div class="alert alert-danger" role="alert">
+                    <div className="alert alert-danger" role="alert">
                         {this.state.errorMessage}
                     </div>
                     : null}
                 <form onSubmit={this.handleSubmit} id="loginForm">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
+                    <div className="row mt-5 mb-5">
+                        <div className="col-6">
                             <label for="login">Login</label>
-                            <input type="text" class="form-control" id="login" name="login" placeholder="Wprowadź login" />
+                            <input type="text" className="form-control" id="login" name="login" placeholder="Wprowadź login" />
                         </div>
-                        <div class="form-group col-md-6">
+                        <div className="col-6">
                             <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Wprowadź hasło" />
+                            <input type="password" className="form-control" id="password" name="password" placeholder="Wprowadź hasło" />
                         </div>
                     </div>
-                    <button class="btn btn-primary">Zaloguj</button>
+                    <div className="row mt-5 mb-5">
+                        <div className="col-12">
+                            <button className="btn btn-primary btn-lg">Zaloguj</button>
+                        </div>
+                    </div>
                 </form>
-            </React.Fragment>
+            </div>
         );
     }
 }
