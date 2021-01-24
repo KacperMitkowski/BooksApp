@@ -20,7 +20,7 @@ export default class RegisterForm extends Component {
         let firstName = document.getElementById("first_name").value;
         let lastName = document.getElementById("last_name").value;
 
-        fetch("api/author", {
+        fetch("api/apiAuthor", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

@@ -10,7 +10,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class AuthorController : ApiController
+    public class ApiAuthorController : ApiController
     {
         private KMdbEntities db = new KMdbEntities();
         // GET api/author

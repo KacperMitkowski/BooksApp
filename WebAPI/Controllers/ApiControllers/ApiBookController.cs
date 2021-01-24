@@ -12,10 +12,10 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    public class BookController : ApiController
+    public class ApiBookController : ApiController
     {
         private KMdbEntities db = new KMdbEntities();
-        // GET api/book
+        // GET api/apiBook
         public string Get()
         {
             var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
@@ -37,12 +37,24 @@ namespace WebAPI.Controllers
             }
 
             return null;
-
         }
 
-        // GET api/book/5
+        // GET api/apiBook/5
         public string Get(int id)
         {
+            var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+            if(credentials != null)
+            {
+                var loggedAuthor = credentials.Split('=')[0];
+                var token = credentials.Split('=')[1];
+
+                string authorFromToken = JWTHelper.ValidateToken(token);
+                if (authorFromToken != null && loggedAuthor == authorFromToken)
+                {
+                    var book = db.book.FirstOrDefault(x => x.book_id == id);
+
+                }
+            }
             return "value";
         }
 

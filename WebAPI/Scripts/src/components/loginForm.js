@@ -32,7 +32,6 @@ export default class LoginForm extends Component {
                 if (data.token && data.author) {
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("author", data.author);
-                    sessionStorage.setItem("loginSuccessful", true);
                     alert("Pomyślne logowanie");
                     window.location = "/";
                 }

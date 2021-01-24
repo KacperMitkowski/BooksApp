@@ -14,6 +14,8 @@ export default class Main extends Component {
 
     render() {
         if (this.state.books) {
+            sessionStorage.setItem("books", JSON.stringify(this.state.books))
+
             return (
                 <React.Fragment>
                     <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
@@ -40,7 +42,9 @@ export default class Main extends Component {
                                         <td>{this.formatDate(book.publication_date)}</td>
                                         <td>{book.genre.title}</td>
                                         <td>{book.isbn}</td>
-                                        <td></td>
+                                        <td>
+                                            <button type="button" class="btn btn-danger" onClick={() => this.handleDetails(book.book_id)}>Szczegóły</button>
+                                        </td>
                                     </tr>
                                 )
                             })}
@@ -53,11 +57,11 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        fetch(`api/book`, {
+        fetch(`api/apiBook`, {
             headers: new Headers({
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
             })
-            })
+        })
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {
@@ -72,7 +76,10 @@ export default class Main extends Component {
                     books: JSON.parse(data)
                 })
             });
+    }
 
+    handleDetails(book_id) {
+        window.location = `/book/details/${book_id}`;
     }
 
     formatDate(date) {
@@ -88,8 +95,8 @@ export default class Main extends Component {
             day = `0${day}`;
         }
 
-        return [day, month, year].join('-'); 
+        return [day, month, year].join('-');
     }
 
-    
+
 }
