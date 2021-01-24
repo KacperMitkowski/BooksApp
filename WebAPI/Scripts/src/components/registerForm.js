@@ -35,10 +35,15 @@ export default class RegisterForm extends Component {
             .then(res => res.json())
             .then(data => {
                 let result = JSON.parse(data);
-                this.setState({
-                    errorMessage: result.errorMessage,
-                    registrationSuccess: result.registrationSuccess
-                })
+                if (result.errorMessage) {
+                    this.setState({
+                        errorMessage: result.errorMessage,
+                    })
+                }
+                else {
+                    alert("Pomyślna rejestracja użytkownika");
+                    window.location = "/";
+                }
             }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
     }
 

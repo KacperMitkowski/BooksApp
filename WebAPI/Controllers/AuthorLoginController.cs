@@ -55,8 +55,6 @@ namespace WebAPI.Controllers
             {
                 return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false }, JsonRequestBehavior.AllowGet);
             }
-
-            return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false }, JsonRequestBehavior.AllowGet);
         }
     }
 }

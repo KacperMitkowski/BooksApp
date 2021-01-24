@@ -1,8 +1,8 @@
 ﻿import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '../src/components/app.js';
+import Routing from './components/routing.js';
 import '../static/css/main.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<Routing />, document.getElementById("root"));

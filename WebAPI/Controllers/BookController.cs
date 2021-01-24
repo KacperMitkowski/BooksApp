@@ -11,26 +11,26 @@ namespace WebAPI.Controllers
         // GET: Book
         public ActionResult Index()
         {
-            ViewBag.Title = "KM";
+            ViewBag.Title = "Kacper Mitkowski";
             return View();
         }
         // GET: Book/Details/5
         public ActionResult Create()
         {
-            ViewBag.Title = "KM";
+            ViewBag.Title = "Kacper Mitkowski";
             return View();
         }
         // GET: Book/Details/5
         public ActionResult Details(int id)
         {
-            ViewBag.Title = "KM";
+            ViewBag.Title = "Kacper Mitkowski";
             return View();
         }
 
         // GET: Book/Edit/5
         public ActionResult Edit(int id)
         {
-            ViewBag.Title = "KM";
+            ViewBag.Title = "Kacper Mitkowski";
             return View();
         }
     }

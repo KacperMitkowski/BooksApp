@@ -17,6 +17,7 @@ export default class LoginForm extends Component {
         let login = document.getElementById("login").value;
         let password = document.getElementById("password").value;
 
+
         fetch("AuthorLogin/Login", {
             method: 'POST',
             headers: {
@@ -29,6 +30,7 @@ export default class LoginForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data);
                 if (data.token && data.author) {
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("author", data.author);

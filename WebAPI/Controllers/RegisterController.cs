@@ -11,7 +11,7 @@ namespace WebAPI.Controllers
         // GET: Register
         public ActionResult Index()
         {
-            ViewBag.Title = "KM";
+            ViewBag.Title = "Kacper Mitkowski";
             return View();
         }
 
