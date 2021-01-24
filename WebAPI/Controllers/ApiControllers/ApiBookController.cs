@@ -32,7 +32,9 @@ namespace WebAPI.Controllers
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                 });
+
                     return authorBooks;
+
                 }
             }
 
@@ -42,30 +44,64 @@ namespace WebAPI.Controllers
         // GET api/apiBook/5
         public string Get(int id)
         {
-            var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
-            if(credentials != null)
-            {
-                var loggedAuthor = credentials.Split('=')[0];
-                var token = credentials.Split('=')[1];
 
-                string authorFromToken = JWTHelper.ValidateToken(token);
-                if (authorFromToken != null && loggedAuthor == authorFromToken)
-                {
-                    var book = db.book.FirstOrDefault(x => x.book_id == id);
-
-                }
-            }
             return "value";
         }
 
         // POST api/book
-        public void Post([FromBody] string value)
+        public void Post(string value)
         {
         }
 
         // PUT api/book/5
-        public void Put(int id, [FromBody] string value)
+        public bool Put(book book)
         {
+            try
+            {
+                if (book == null || book.book_id == 0 || string.IsNullOrWhiteSpace(book.title) || string.IsNullOrWhiteSpace(book.description) || string.IsNullOrWhiteSpace(book.publication_date.ToString()) || string.IsNullOrWhiteSpace(book.isbn))
+                {
+                    return false;
+                }
+                var bookFromDb = db.book.FirstOrDefault(x => x.book_id == book.book_id);
+                if (bookFromDb == null)
+                {
+                    return false;
+                }
+                var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+                AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
+
+                var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+                if (cred != null)
+                {
+                    string authorFromToken = JWTHelper.ValidateToken(cred.token);
+
+                    if (authorFromToken != null && cred.author == authorFromToken)
+                    {
+                        bookFromDb.author_id = book.author_id;
+                        bookFromDb.genre_id = book.genre_id;
+                        bookFromDb.title = book.title;
+                        bookFromDb.description = book.description;
+                        bookFromDb.publication_date = book.publication_date;
+                        bookFromDb.isbn = book.isbn;
+                        db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
+
+                        db.log.Add(new log()
+                        {
+                            author_id = book.author_id,
+                            event_name = "EDIT",
+                            event_date = DateTime.Now
+                        });
+
+                        db.SaveChanges();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
         }
 
         // DELETE api/book/5

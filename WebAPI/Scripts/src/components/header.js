@@ -49,8 +49,7 @@ export default class Header extends Component {
     }
 
     logoutAuthor() {
-        sessionStorage.removeItem("author");
-        sessionStorage.removeItem("token");
+        sessionStorage.clear();
         alert("Pomyślne wylogowanie");
         window.location = "/";
     }

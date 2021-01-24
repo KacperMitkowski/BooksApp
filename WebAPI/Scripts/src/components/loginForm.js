@@ -32,6 +32,7 @@ export default class LoginForm extends Component {
                 if (data.token && data.author) {
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("author", data.author);
+                    sessionStorage.setItem("allAuthors", data.allAuthors);
                     alert("Pomyślne logowanie");
                     window.location = "/";
                 }
@@ -40,7 +41,7 @@ export default class LoginForm extends Component {
                     errorMessage: data.errorMessage,
                     loginSuccess: data.loginSuccess
                 })
-            }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
+            }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }));
     }
 
     render() {

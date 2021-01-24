@@ -175,6 +175,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\ApiControllers\ApiAuthorController.cs" />
+    <Compile Include="Controllers\ApiControllers\ApiGenreController.cs" />
     <Compile Include="Controllers\AuthorLoginController.cs" />
     <Compile Include="Controllers\BookController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="Models\author_group.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Models\book.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -323,6 +325,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ApiGenre\" />
     <Folder Include="Views\AuthorLogin\" />
     <Folder Include="Views\Author\" />
   </ItemGroup>

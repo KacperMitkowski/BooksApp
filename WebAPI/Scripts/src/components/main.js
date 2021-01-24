@@ -60,7 +60,7 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        fetch(`api/apiBook`, {
+        fetch(`/api/apiBook`, {
             headers: new Headers({
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
             })

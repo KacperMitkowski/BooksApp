@@ -57,7 +57,7 @@ export default class RegisterForm extends Component {
                         {this.state.errorMessage}
                     </div>
                     : null}
-                <form onSubmit={this.handleSubmit} id="registrationForm">
+                <form onSubmit={this.handleSubmit} id="registrationAuthorForm">
                     <div class="form-row">
                         <div class="form-group col-md-6">
                             <label for="login">Login</label>

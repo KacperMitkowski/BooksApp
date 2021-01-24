@@ -10,25 +10,68 @@ export default class BookEdit extends Component {
             description: null,
             publicationDate: null,
             genre: null,
+            bookGenres: null,
             isbn: null,
             flag: true
         };
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    onTodoChange(value) {
-        this.setState({
-            title: value
-        });
+    handleSubmit(event) {
+        event.preventDefault();
+
+        let title = document.getElementById("title").value;
+        let description = document.getElementById("description").value;
+        let publicationDate = document.getElementById("publication-date").value;
+        let isbn = document.getElementById("isbn").value;
+        let authorId = document.getElementById("author-id").value;
+        let genreId = document.getElementById("genre-id").value;
+        let bookId = document.getElementById("book-id").value;
+        let obj = {
+            author: sessionStorage.getItem("author"),
+            token: sessionStorage.getItem("token")
+        }
+
+        fetch("/api/apiBook", {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': JSON.stringify(obj)
+            },
+            body: JSON.stringify({
+                book_id: bookId,
+                genre_id: genreId,
+                author_id: authorId,
+                title: title,
+                description: description,
+                publication_date: publicationDate,
+                isbn: isbn
+            })
+        })
+            .then(res => res.json())
+            .then(data => {
+                if (data == true) {
+                    alert("Udana edycja książki");
+                    window.location = "/";
+                }
+                this.setState({
+                    errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
+                    
+                })
+            }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
     }
 
     render() {
         let books = JSON.parse(sessionStorage.getItem("books"));
+        let authors = JSON.parse(sessionStorage.getItem("allAuthors"));
         let bookId = this.props.match.params.id;
         let token = sessionStorage.getItem("token");
 
+
+
         for (let book of books) {
             if (book.book_id == bookId && token && this.state.flag == true) {
-                
+
                 this.setState({
                     title: book.title,
                     authorFirstName: book.author.first_name,
@@ -42,61 +85,82 @@ export default class BookEdit extends Component {
             }
         }
 
-        console.log(bookId);
-        console.log(books);
-      
-
         for (let book of books) {
-            if (book.book_id == bookId && token) {
-                
+            if (book.book_id == bookId && token && this.state.bookGenres && authors) {
                 return (
-                    <div class="container-fluid mt-5 mb-5">
-                        <div className="row mt-5 mb-5">
-                            <div className="col-12 text-center">
-                                <h1>(Edycja) {book.title}</h1>
-                            </div>
-                        </div>
-                        <form>
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <label for="title">Tytuł</label>
-                                    <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
+                    <React.Fragment>
+                        {
+                            this.state.errorMessage ?
+                                <div class="alert alert-danger" role="alert">
+                                    {this.state.errorMessage}
                                 </div>
-                                <div class="col">
-                                    <label for="first-name">Imię autora</label>
-                                    <input type="text" id="first-name" class="form-control" placeholder="Imię autora" value={this.state.authorFirstName} onChange={e => this.setState({ authorFirstName: e.target.value })} />
-                                </div>
-                                <div class="col">
-                                    <label for="last-name">Nazwisko autora</label>
-                                    <input id="last-name" type="text" class="form-control" placeholder="Nazwisko autora" value={this.state.authorLastName} onChange={e => this.setState({ authorLastName: e.target.value })} />
-                                </div>
-                            </div>
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <label for="publication-date">Data publikacji</label>
-                                    <input id="publication-date" type="date" placeholder="Data publikacji" style={{ display: "block", width: "100%" }} value={this.formatDate(this.state.publicationDate)} onChange={e => this.setState({ publicationDate: e.target.value })}/>
-                                </div>
-                                <div class="col">
-                                    <label for="genre">Gatunek</label>
-                                    <input id="genre" type="text" class="form-control" placeholder="Gatunek" value={this.state.genre} onChange={e => this.setState({ genre: e.target.value })} />
-                                </div>
-                                <div class="col">
-                                    <label for="isbn">ISBN</label>
-                                    <input id="isbn" type="text" class="form-control" placeholder="ISBN" value={this.state.isbn} onChange={e => this.setState({ isbn: e.target.value })} />
-                                </div>
-                            </div>
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <textarea class="form-control" placeholder="Opis" cols="10" rows="10" value={this.state.description} onChange={e => this.setState({ description: e.target.value })}>
+                                : null
+                        }
+                        <div class="container-fluid mt-5 mb-5">
+                            <input id="book-id" value={book.book_id} hidden />
 
-                                    </textarea>
+                            <div className="row mt-5 mb-5">
+                                <div className="col-12 text-center">
+                                    <h1>(Edycja) {book.title}</h1>
                                 </div>
-                                
                             </div>
-                        </form>
-                    </div>
+                            <form onSubmit={this.handleSubmit} id="editBookForm">
+                                <div class="form-row mt-5 mb-5">
+                                    <div class="col">
+                                        <label for="title">Tytuł</label>
+                                        <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
+                                    </div>
+                                    <div class="col">
+                                        <label for="author-id">Author</label>
+                                        <select id="author-id" className="form-control form-control-sm">
+                                            {authors.map((author, i) => {
+                                                if (author.login == sessionStorage.getItem("author")) {
+                                                    return (
+                                                        <option selected value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
+                                                    )
+                                                }
+                                                else {
+                                                    return (
+                                                        <option  value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
+                                                    )
+                                                }
+                                            })}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-row mt-5 mb-5">
+                                    <div class="col">
+                                        <label for="publication-date">Data publikacji</label>
+                                        <input id="publication-date" type="date" placeholder="Data publikacji" style={{ display: "block", width: "100%" }} value={this.formatDate(this.state.publicationDate)} onChange={e => this.setState({ publicationDate: e.target.value })} />
+                                    </div>
+                                    <div class="col">
+                                        <label for="genre-id">Gatunek</label>
+                                        <select id="genre-id" className="form-control form-control-sm">
+                                            {this.state.bookGenres.map((genre, i) => {
+                                                return (
+                                                    <option value={genre.genre_id}>{genre.title}</option>
+                                                )
+                                            })}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="isbn">ISBN</label>
+                                        <input id="isbn" type="text" class="form-control" placeholder="ISBN" value={this.state.isbn} onChange={e => this.setState({ isbn: e.target.value })} />
+                                    </div>
+                                </div>
+                                <div class="form-row mt-5 mb-5">
+                                    <div class="col">
+                                        <textarea id="description" class="form-control" placeholder="Opis" cols="10" rows="10" value={this.state.description} onChange={e => this.setState({ description: e.target.value })}>
+
+                                        </textarea>
+                                    </div>
+
+                                </div>
+                                <button class="btn btn-primary">Edytuj</button>
+                            </form>
+                        </div>
+                    </React.Fragment>
                 );
-                document.getElementById("title").value = book.title;
             }
         }
         return (
@@ -119,5 +183,22 @@ export default class BookEdit extends Component {
         }
 
         return [year, month, day].join('-');
+    }
+
+    componentDidMount() {
+        fetch(`/api/apiGenre`)
+            .then(response => {
+                if (response.status > 400) {
+                    return this.setState(() => {
+                        return { error: "Something went wrong!" };
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                this.setState({
+                    bookGenres: JSON.parse(data)
+                })
+            });
     }
 }
