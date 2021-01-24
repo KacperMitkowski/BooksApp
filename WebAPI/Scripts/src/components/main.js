@@ -25,7 +25,11 @@ export default class Main extends Component {
                             </div>
                             : null
                     }
-                    <button type="button" class="btn btn-danger" onClick={() => this.handleCreate()}>Stwórz książkę</button>
+                    <div className="row mb-5">
+                        <div className="col-12 text-center">
+                            <button type="button" class="btn btn-danger btn-lg" onClick={() => this.handleCreate()}>Stwórz książkę</button>
+                        </div>
+                    </div>
                     <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
                         <thead className='thead-dark'>
                             <tr>
