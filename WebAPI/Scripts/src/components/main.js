@@ -18,6 +18,13 @@ export default class Main extends Component {
 
             return (
                 <React.Fragment>
+                    {
+                        this.state.errorMessage ?
+                            <div class="alert alert-danger" role="alert">
+                                {this.state.errorMessage}
+                            </div>
+                            : null
+                    }
                     <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
                         <thead className='thead-dark'>
                             <tr>
@@ -46,6 +53,7 @@ export default class Main extends Component {
                                             <div className="d-flex justify-content-between">
                                                 <button type="button" class="btn btn-danger" onClick={() => this.handleDetails(book.book_id)}>Szczegóły</button>
                                                 <button type="button" class="btn btn-danger" onClick={() => this.handleEdit(book.book_id)}>Edycja</button>
+                                                <button type="button" class="btn btn-danger" onClick={() => this.handleDelete(book.book_id)}>Usuwanie</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -88,6 +96,37 @@ export default class Main extends Component {
     handleEdit(book_id) {
         window.location = `/book/edit/${book_id}`;
     }
+
+    handleDelete(book_id) {
+        if (confirm("Usunąć książkę?")) {
+            let obj = {
+                author: sessionStorage.getItem("author"),
+                token: sessionStorage.getItem("token")
+            }
+
+            fetch(`/api/apiBook/${book_id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': JSON.stringify(obj)
+                }
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data == true) {
+                        alert("Udane usunięcie książki");
+                        window.location = "/";
+                    }
+                    this.setState({
+                        errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
+
+                    })
+                }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
+
+
+        }
+    }
+
     formatDate(date) {
         let d = new Date(date);
         let month = `${(d.getMonth() + 1)}`;

@@ -27,11 +27,12 @@ namespace WebAPI.Controllers
                 string authorFromToken = JWTHelper.ValidateToken(token);
                 if (authorFromToken != null && loggedAuthor == authorFromToken)
                 {
-                    var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.ToList(),
+                    // var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.ToList(),
+                    var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == "ACTIVE").ToList(),
                 new JsonSerializerSettings()
                 {
                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                });
+                }); ;
 
                     return authorBooks;
 
@@ -48,12 +49,12 @@ namespace WebAPI.Controllers
             return "value";
         }
 
-        // POST api/book
+        // POST api/apiBook
         public void Post(string value)
         {
         }
 
-        // PUT api/book/5
+        // PUT api/apiBook/5
         public bool Put(book book)
         {
             try
@@ -70,7 +71,6 @@ namespace WebAPI.Controllers
                 var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
                 AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
 
-                var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
                 if (cred != null)
                 {
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
@@ -85,9 +85,9 @@ namespace WebAPI.Controllers
                         bookFromDb.isbn = book.isbn;
                         db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
 
-                        db.log.Add(new log()
+                        var log = db.log.Add(new log()
                         {
-                            author_id = book.author_id,
+                            book_id = book.book_id,
                             event_name = "EDIT",
                             event_date = DateTime.Now
                         });
@@ -104,9 +104,52 @@ namespace WebAPI.Controllers
             }
         }
 
-        // DELETE api/book/5
-        public void Delete(int id)
+        // DELETE api/apiBook/5
+        public bool Delete(int id)
         {
+            try
+            {
+                if(id == 0)
+                {
+                    return false;
+                }
+                book book = db.book.FirstOrDefault(x => x.book_id == id);
+                if(book == null)
+                {
+                    return false;
+                }
+
+                var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+                AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
+                if (cred != null)
+                {
+                    string authorFromToken = JWTHelper.ValidateToken(cred.token);
+
+                    if (authorFromToken != null && cred.author == authorFromToken)
+                    {
+                        book.status = "INACTIVE";
+                        db.Entry(book).State = System.Data.Entity.EntityState.Modified;
+
+                        var log = db.log.Add(new log()
+                        {
+                            book_id = book.book_id,
+                            event_name = "DELETE",
+                            event_date = DateTime.Now
+                        });
+
+                        db.SaveChanges();
+                        return true;
+                    }
+                }
+                return false;
+
+                
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
         }
     }
 }

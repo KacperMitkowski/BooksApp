@@ -14,6 +14,12 @@ namespace WebAPI.Models
     
     public partial class book
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public book()
+        {
+            this.log = new HashSet<log>();
+        }
+    
         public long book_id { get; set; }
         public long genre_id { get; set; }
         public long author_id { get; set; }
@@ -23,7 +29,9 @@ namespace WebAPI.Models
         public string isbn { get; set; }
         public string status { get; set; }
     
-        public virtual genre genre { get; set; }
         public virtual author author { get; set; }
+        public virtual genre genre { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<log> log { get; set; }
     }
 }

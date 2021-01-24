@@ -15,6 +15,7 @@ namespace WebAPI.Models
     public partial class log
     {
         public long log_id { get; set; }
+        public Nullable<long> book_id { get; set; }
         public Nullable<long> author_id { get; set; }
         public Nullable<long> admin_id { get; set; }
         public string event_name { get; set; }
@@ -24,5 +25,6 @@ namespace WebAPI.Models
     
         public virtual admin admin { get; set; }
         public virtual author author { get; set; }
+        public virtual book book { get; set; }
     }
 }
