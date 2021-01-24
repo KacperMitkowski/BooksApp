@@ -46,7 +46,7 @@ export default class LoginForm extends Component {
 
     render() {
         return (
-            <div classNameName="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center'  }}>
+            <div className="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center'  }}>
                 {this.state.errorMessage ?
                     <div className="alert alert-danger" role="alert">
                         {this.state.errorMessage}

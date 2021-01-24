@@ -43,42 +43,44 @@ export default class RegisterForm extends Component {
     }
 
     render() {
-        if (this.state.registrationSuccess && this.state.registrationSuccess == true) {
-            return(
-                <div class="alert alert-success" role="alert">
-                Udana rejestracja!
-            </div>)
-        }
-        
+
+
         return (
             <React.Fragment>
-                {this.state.errorMessage ? 
-                    <div class="alert alert-danger" role="alert">
-                        {this.state.errorMessage}
+                <div className="row mb-5">
+                    <div className="col-12 text-center">
+                        <a className="btn btn-danger btn-lg" href="/">Powrót</a>
                     </div>
-                    : null}
+                </div>
                 <form onSubmit={this.handleSubmit} id="registrationAuthorForm">
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="login">Login</label>
-                            <input type="text" class="form-control" id="login" name="login" placeholder="Wprowadź login" />
+                    <div className="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center' }}>
+                        {this.state.errorMessage ?
+                            <div class="alert alert-danger" role="alert">
+                                {this.state.errorMessage}
+                            </div>
+                            : null}
+                        <div className="row mt-5 mb-5">
+                            <div className="col-6">
+                                <label for="login">Login</label>
+                                <input type="text" class="form-control" id="login" name="login" placeholder="Wprowadź login" />
+                            </div>
+                            <div class="col-6">
+                                <label for="password">Password</label>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Wprowadź hasło" />
+                            </div>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label for="password">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" placeholder="Wprowadź hasło" />
+                        <div className="row mt-5 mb-5">
+                            <div className="col-6">
+                                <label for="first_name">Imię</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Wprowadź imię" />
+                            </div>
+                            <div className="col-6">
+                                <label for="last_name">Nazwisko</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Wprowadź nazwisko" />
+                            </div>
                         </div>
+                        <button class="btn btn-primary btn-lg">Zarejestruj</button>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group col-md-6">
-                            <label for="first_name">Imię</label>
-                            <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Wprowadź imię" />
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label for="last_name">Nazwisko</label>
-                            <input type="text" class="form-control" id="last_name" name="last_name" placeholder="Wprowadź nazwisko" />
-                        </div>
-                    </div>
-                    <button class="btn btn-primary">Zarejestruj</button>
                 </form>
             </React.Fragment>
         );
