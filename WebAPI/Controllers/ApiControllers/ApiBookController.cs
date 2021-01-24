@@ -50,8 +50,44 @@ namespace WebAPI.Controllers
         }
 
         // POST api/apiBook
-        public void Post(string value)
+        public bool Post(book book)
         {
+            try
+            {
+                if (book == null || string.IsNullOrWhiteSpace(book.title) || string.IsNullOrWhiteSpace(book.description) || string.IsNullOrWhiteSpace(book.publication_date.ToString()) || string.IsNullOrWhiteSpace(book.isbn))
+                {
+                    return false;
+                }
+                var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+                AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
+
+                if (cred != null)
+                {
+                    string authorFromToken = JWTHelper.ValidateToken(cred.token);
+
+                    if (authorFromToken != null && cred.author == authorFromToken)
+                    {
+                        book.status = "ACTIVE";
+                        var newBook = db.book.Add(book);
+
+                        var log = db.log.Add(new log()
+                        {
+                            book_id = book.book_id,
+                            author_id = book.author_id,
+                            event_name = "CREATE",
+                            event_date = DateTime.Now
+                        });
+
+                        db.SaveChanges();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
         }
 
         // PUT api/apiBook/5
@@ -88,6 +124,7 @@ namespace WebAPI.Controllers
                         var log = db.log.Add(new log()
                         {
                             book_id = book.book_id,
+                            author_id = book.author_id,
                             event_name = "EDIT",
                             event_date = DateTime.Now
                         });

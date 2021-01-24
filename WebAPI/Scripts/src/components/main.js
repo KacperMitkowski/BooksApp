@@ -13,7 +13,7 @@ export default class Main extends Component {
     }
 
     render() {
-        if (this.state.books && this.state.books.length > 0) {
+        if (sessionStorage.getItem("author") && sessionStorage.getItem("token")) {
             sessionStorage.setItem("books", JSON.stringify(this.state.books))
 
             return (
@@ -25,6 +25,7 @@ export default class Main extends Component {
                             </div>
                             : null
                     }
+                    <button type="button" class="btn btn-danger" onClick={() => this.handleCreate()}>Stwórz książkę</button>
                     <table className='table table-sm table-bordered' style={{ tableLayout: 'fixed' }}>
                         <thead className='thead-dark'>
                             <tr>
@@ -95,6 +96,10 @@ export default class Main extends Component {
 
     handleEdit(book_id) {
         window.location = `/book/edit/${book_id}`;
+    }
+
+    handleCreate() {
+        window.location = `/book/create`;
     }
 
     handleDelete(book_id) {

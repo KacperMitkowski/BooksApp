@@ -7,6 +7,8 @@ import RegisterForm from './registerForm.js';
 import LoginForm from './loginForm.js';
 import BookDetails from './bookDetails.js';
 import BookEdit from './bookEdit.js';
+import BookCreate from './bookCreate.js';
+
 
 export default class App extends React.Component {
     constructor(props) {
@@ -29,6 +31,7 @@ export default class App extends React.Component {
                     <Route exact path="/login" component={LoginForm} />
                     <Route exact path="/book/details/:id" component={BookDetails} />
                     <Route exact path="/book/edit/:id" component={BookEdit} />
+                    <Route exact path="/book/create/" component={BookCreate} />
                 </Switch>
 
                 <Footer />

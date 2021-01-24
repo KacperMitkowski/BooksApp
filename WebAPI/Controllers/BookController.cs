@@ -14,7 +14,12 @@ namespace WebAPI.Controllers
             ViewBag.Title = "KM";
             return View();
         }
-
+        // GET: Book/Details/5
+        public ActionResult Create()
+        {
+            ViewBag.Title = "KM";
+            return View();
+        }
         // GET: Book/Details/5
         public ActionResult Details(int id)
         {
