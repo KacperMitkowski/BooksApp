@@ -25,18 +25,27 @@ namespace WebAPI.Controllers
                 var token = credentials.Split('=')[1];
 
                 string authorFromToken = JWTHelper.ValidateToken(token);
-                if (authorFromToken != null && loggedAuthor == authorFromToken)
-                {
-                    // var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.ToList(),
-                    var authorBooks = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == "ACTIVE").ToList(),
-                new JsonSerializerSettings()
-                {
-                    ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                }); ;
 
-                    return authorBooks;
+                if (authorFromToken != null)
+                {
+                    long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                    long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                    List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
 
+                    if (authorFromToken != null && loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_access"))
+                    {
+                        var books = JsonConvert.SerializeObject(db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == "ACTIVE").ToList(),
+                    new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                    });
+
+                        return books;
+
+                    }
+                    return null;
                 }
+                return null;
             }
 
             return null;
@@ -64,27 +73,33 @@ namespace WebAPI.Controllers
                 if (cred != null)
                 {
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
-
-                    if (authorFromToken != null && cred.author == authorFromToken)
+                    if (authorFromToken != null)
                     {
-                        book.status = "ACTIVE";
-                        var newBook = db.book.Add(book);
+                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
 
-                        var log = db.log.Add(new log()
+                        if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_create"))
                         {
-                            book_id = book.book_id,
-                            author_id = book.author_id,
-                            event_name = "CREATE",
-                            event_date = DateTime.Now
-                        });
+                            book.status = "ACTIVE";
+                            var newBook = db.book.Add(book);
 
-                        db.SaveChanges();
-                        return true;
+                            var log = db.log.Add(new log()
+                            {
+                                book_id = book.book_id,
+                                author_id = book.author_id,
+                                event_name = "CREATE",
+                                event_date = DateTime.Now
+                            });
+
+                            db.SaveChanges();
+                            return true;
+                        }
                     }
                 }
                 return false;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
@@ -110,27 +125,33 @@ namespace WebAPI.Controllers
                 if (cred != null)
                 {
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
-
-                    if (authorFromToken != null && cred.author == authorFromToken)
+                    if (authorFromToken != null)
                     {
-                        bookFromDb.author_id = book.author_id;
-                        bookFromDb.genre_id = book.genre_id;
-                        bookFromDb.title = book.title;
-                        bookFromDb.description = book.description;
-                        bookFromDb.publication_date = book.publication_date;
-                        bookFromDb.isbn = book.isbn;
-                        db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
+                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
 
-                        var log = db.log.Add(new log()
+                        if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_edit"))
                         {
-                            book_id = book.book_id,
-                            author_id = book.author_id,
-                            event_name = "EDIT",
-                            event_date = DateTime.Now
-                        });
+                            bookFromDb.author_id = book.author_id;
+                            bookFromDb.genre_id = book.genre_id;
+                            bookFromDb.title = book.title;
+                            bookFromDb.description = book.description;
+                            bookFromDb.publication_date = book.publication_date;
+                            bookFromDb.isbn = book.isbn;
+                            db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
 
-                        db.SaveChanges();
-                        return true;
+                            var log = db.log.Add(new log()
+                            {
+                                book_id = book.book_id,
+                                author_id = book.author_id,
+                                event_name = "EDIT",
+                                event_date = DateTime.Now
+                            });
+
+                            db.SaveChanges();
+                            return true;
+                        }
                     }
                 }
                 return false;
@@ -146,12 +167,12 @@ namespace WebAPI.Controllers
         {
             try
             {
-                if(id == 0)
+                if (id == 0)
                 {
                     return false;
                 }
                 book book = db.book.FirstOrDefault(x => x.book_id == id);
-                if(book == null)
+                if (book == null)
                 {
                     return false;
                 }
@@ -161,28 +182,34 @@ namespace WebAPI.Controllers
                 if (cred != null)
                 {
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
-
-                    if (authorFromToken != null && cred.author == authorFromToken)
+                    if (authorFromToken != null)
                     {
-                        book.status = "INACTIVE";
-                        db.Entry(book).State = System.Data.Entity.EntityState.Modified;
 
-                        var log = db.log.Add(new log()
+
+                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+
+                        if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_delete"))
                         {
-                            book_id = book.book_id,
-                            event_name = "DELETE",
-                            event_date = DateTime.Now
-                        });
+                            book.status = "INACTIVE";
+                            db.Entry(book).State = System.Data.Entity.EntityState.Modified;
 
-                        db.SaveChanges();
-                        return true;
+                            var log = db.log.Add(new log()
+                            {
+                                book_id = book.book_id,
+                                event_name = "DELETE",
+                                event_date = DateTime.Now
+                            });
+
+                            db.SaveChanges();
+                            return true;
+                        }
                     }
                 }
                 return false;
-
-                
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return false;
             }
