@@ -13,7 +13,7 @@ export default class Main extends Component {
     }
 
     render() {
-        if (this.state.books) {
+        if (this.state.books && this.state.books.length > 0) {
             sessionStorage.setItem("books", JSON.stringify(this.state.books))
 
             return (
@@ -43,7 +43,10 @@ export default class Main extends Component {
                                         <td>{book.genre.title}</td>
                                         <td>{book.isbn}</td>
                                         <td>
-                                            <button type="button" class="btn btn-danger" onClick={() => this.handleDetails(book.book_id)}>Szczegóły</button>
+                                            <div className="d-flex justify-content-between">
+                                                <button type="button" class="btn btn-danger" onClick={() => this.handleDetails(book.book_id)}>Szczegóły</button>
+                                                <button type="button" class="btn btn-danger" onClick={() => this.handleEdit(book.book_id)}>Edycja</button>
+                                            </div>
                                         </td>
                                     </tr>
                                 )
@@ -82,6 +85,9 @@ export default class Main extends Component {
         window.location = `/book/details/${book_id}`;
     }
 
+    handleEdit(book_id) {
+        window.location = `/book/edit/${book_id}`;
+    }
     formatDate(date) {
         let d = new Date(date);
         let month = `${(d.getMonth() + 1)}`;
@@ -97,6 +103,4 @@ export default class Main extends Component {
 
         return [day, month, year].join('-');
     }
-
-
 }

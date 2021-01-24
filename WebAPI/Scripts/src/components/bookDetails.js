@@ -6,20 +6,17 @@ export default class BookDetails extends Component {
         let bookId = this.props.match.params.id;
         let token = sessionStorage.getItem("token");
 
-        console.log(bookId);
-        console.log(books);
-
         for (let book of books) {
             if (book.book_id == bookId && token) {
                 return (
                     <React.Fragment>
                         <div class="container-fluid">
-                            <div className="row" style={{ marginTop: '50px', marginBottom: '50px' }}>
+                            <div className="row mt-5 mb-5">
                                 <div className="col-12 text-center">
                                     <h1>{book.title}</h1>
                                 </div>
                             </div>
-                            <div class="row" style={{ marginBottom: '50px' }}>
+                            <div class="row mb-5">
                                 <div class="col-2">Tytuł: {book.title}</div>
                                 <div class="col-2">Autor: {`${book.author.first_name} ${book.author.last_name}`}</div>
                                 <div class="col-2">Opis: {book.description}</div>

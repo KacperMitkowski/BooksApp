@@ -21,5 +21,12 @@ namespace WebAPI.Controllers
             ViewBag.Title = "KM";
             return View();
         }
+
+        // GET: Book/Edit/5
+        public ActionResult Edit(int id)
+        {
+            ViewBag.Title = "KM";
+            return View();
+        }
     }
 }

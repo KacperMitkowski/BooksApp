@@ -294,6 +294,7 @@
     <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\src\components\app.js" />
     <Content Include="Scripts\src\components\bookDetails.js" />
+    <Content Include="Scripts\src\components\bookEdit.js" />
     <Content Include="Scripts\src\components\footer.js" />
     <Content Include="Scripts\src\components\header.js" />
     <Content Include="Scripts\src\components\loginForm.js" />
@@ -318,6 +319,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Register\Index.cshtml" />
     <Content Include="Views\Book\Details.cshtml" />
+    <Content Include="Views\Book\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

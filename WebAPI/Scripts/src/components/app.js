@@ -6,6 +6,7 @@ import Footer from '../components/footer.js';
 import RegisterForm from './registerForm.js';
 import LoginForm from './loginForm.js';
 import BookDetails from './bookDetails.js';
+import BookEdit from './bookEdit.js';
 
 export default class App extends React.Component {
     constructor(props) {
@@ -27,6 +28,7 @@ export default class App extends React.Component {
                     <Route exact path="/register" component={RegisterForm} />
                     <Route exact path="/login" component={LoginForm} />
                     <Route exact path="/book/details/:id" component={BookDetails} />
+                    <Route exact path="/book/edit/:id" component={BookEdit} />
                 </Switch>
 
                 <Footer />
