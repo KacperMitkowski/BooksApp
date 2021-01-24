@@ -32,12 +32,13 @@ namespace WebAPI.Controllers
                     if (PasswordHelper.VerifyPassword(author.password, hashedPassword))
                     {
                         string token = JWTHelper.GenerateToken(author.login);
-
+                        
                         string allAuthors = JsonConvert.SerializeObject(db.author.ToList(),
                             new JsonSerializerSettings()
                             {
                                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore
                             });
+                        
                         return Json(new { loginSuccess = true, token = token, author = author.login, allAuthors = allAuthors }, JsonRequestBehavior.AllowGet);
                     }
                     else
