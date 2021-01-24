@@ -43,8 +43,6 @@ export default class RegisterForm extends Component {
     }
 
     render() {
-
-
         return (
             <React.Fragment>
                 <div className="row mb-5">

@@ -64,7 +64,7 @@ export default class BookCreate extends Component {
 
         if (token && this.state.bookGenres && authors) {
             return (
-                <React.Fragment>
+                <div className="container" style={{ width: "50%", margin: "0 auto", textAlign: 'center' }}>
                     {
                         this.state.errorMessage ?
                             <div class="alert alert-danger" role="alert">
@@ -72,61 +72,59 @@ export default class BookCreate extends Component {
                             </div>
                             : null
                     }
-                    <div class="container-fluid mt-5 mb-5">
-                        <div className="row mt-5 mb-5">
-                            <div className="col-12 text-center">
-                                <h1>(Tworzenie) Książka</h1>
+                    <div className="row mt-5 mb-5">
+                        <div className="col-12 text-center">
+                            <h1>(Tworzenie) Książka</h1>
+                        </div>
+                    </div>
+                    <form onSubmit={this.handleSubmit} id="createBookForm">
+                        <div class="form-row mt-5 mb-5">
+                            <div class="col">
+                                <label for="title">Tytuł</label>
+                                <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
+                            </div>
+                            <div class="col">
+                                <label for="author-id">Author</label>
+                                <select id="author-id" className="form-control form-control-sm">
+                                    {authors.map((author, i) => {
+                                        return (
+                                            <option value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
                         </div>
-                        <form onSubmit={this.handleSubmit} id="createBookForm">
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <label for="title">Tytuł</label>
-                                    <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-                                </div>
-                                <div class="col">
-                                    <label for="author-id">Author</label>
-                                    <select id="author-id" className="form-control form-control-sm">
-                                        {authors.map((author, i) => {
-                                            return (
-                                                <option value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
-                                            )
-                                        })}
-                                    </select>
-                                </div>
+                        <div class="form-row mt-5 mb-5">
+                            <div class="col">
+                                <label for="publication-date">Data publikacji</label>
+                                <input id="publication-date" type="date" placeholder="Data publikacji" style={{ display: "block", width: "100%" }} value={this.state.publicationDate} onChange={e => this.setState({ publicationDate: e.target.value })} />
                             </div>
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <label for="publication-date">Data publikacji</label>
-                                    <input id="publication-date" type="date" placeholder="Data publikacji" style={{ display: "block", width: "100%" }} value={this.state.publicationDate} onChange={e => this.setState({ publicationDate: e.target.value })} />
-                                </div>
-                                <div class="col">
-                                    <label for="genre-id">Gatunek</label>
-                                    <select id="genre-id" className="form-control form-control-sm">
-                                        {this.state.bookGenres.map((genre, i) => {
-                                            return (
-                                                <option value={genre.genre_id}>{genre.title}</option>
-                                            )
-                                        })}
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="isbn">ISBN</label>
-                                    <input id="isbn" type="text" class="form-control" placeholder="ISBN" value={this.state.isbn} onChange={e => this.setState({ isbn: e.target.value })} />
-                                </div>
+                            <div class="col">
+                                <label for="genre-id">Gatunek</label>
+                                <select id="genre-id" className="form-control form-control-sm">
+                                    {this.state.bookGenres.map((genre, i) => {
+                                        return (
+                                            <option value={genre.genre_id}>{genre.title}</option>
+                                        )
+                                    })}
+                                </select>
                             </div>
-                            <div class="form-row mt-5 mb-5">
-                                <div class="col">
-                                    <textarea id="description" class="form-control" placeholder="Opis" cols="10" rows="10" value={this.state.description} onChange={e => this.setState({ description: e.target.value })}>
+                            <div class="col">
+                                <label for="isbn">ISBN</label>
+                                <input id="isbn" type="text" class="form-control" placeholder="ISBN" value={this.state.isbn} onChange={e => this.setState({ isbn: e.target.value })} />
+                            </div>
+                        </div>
+                        <div class="form-row mt-5 mb-5">
+                            <div class="col">
+                                <textarea id="description" class="form-control" placeholder="Opis" cols="10" rows="10" value={this.state.description} onChange={e => this.setState({ description: e.target.value })}>
 
-                                    </textarea>
-                                </div>
-
+                                </textarea>
                             </div>
-                            <button class="btn btn-primary">Stwórz</button>
-                        </form>
-                    </div>
-                </React.Fragment>
+
+                        </div>
+                        <button class="btn btn-primary btn-lg">Stwórz</button>
+                    </form>
+                </div>
             );
         }
         return null;
