@@ -32,10 +32,10 @@ export default class BookCreate extends Component {
 
         fetch("/api/apiBook", {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': JSON.stringify(obj)
-            },
+            headers: new Headers({
+                'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`,
+                'Content-Type': 'application/json'
+            }),
             body: JSON.stringify({
                 genre_id: genreId,
                 author_id: authorId,
@@ -47,14 +47,15 @@ export default class BookCreate extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                if (data == true) {
+                if (data.bookCreationSuccess == true) {
                     alert("Udało się dodać książkę");
                     window.location = "/";
                 }
-                this.setState({
-                    errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
-
-                })
+                else {
+                    this.setState({
+                        errorMessage: data.errorMessage,
+                    })
+                }
             }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
     }
 

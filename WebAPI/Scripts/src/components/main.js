@@ -44,7 +44,7 @@ export default class Main extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            {this.state.books.map((book, i) => {
+                            {this.state.books && this.state.books.length > 0 ? this.state.books.map((book, i) => {
                                 return (
                                     <tr key={`book-${i}`}>
                                         <th scope="row">{i + 1}</th>
@@ -63,7 +63,9 @@ export default class Main extends Component {
                                         </td>
                                     </tr>
                                 )
-                            })}
+                            }) :
+                                <h1>Autor nie posiada żadnych książek</h1>
+                            }
                         </tbody>
                     </table>
                 </React.Fragment>
@@ -84,12 +86,13 @@ export default class Main extends Component {
                         return { error: "Something went wrong!" };
                     });
                 }
-
+                console.log(response);
                 return response.json();
             })
             .then(data => {
+                console.log(data);
                 this.setState({
-                    books: JSON.parse(data)
+                    books: data.books
                 })
             });
     }

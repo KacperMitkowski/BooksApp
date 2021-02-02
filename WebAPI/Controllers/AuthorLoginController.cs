@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             {
                 if (author == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
                 {
-                    return Json(new { errorMessage = "Nie wprowadzono loginu lub hasła", loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessage = "Nie wprowadzono loginu lub hasła", loginSuccess = false });
                 }
 
                 if (db.author.Any(x => x.login == author.login))
@@ -36,18 +36,18 @@ namespace WebAPI.Controllers
                     }
                     else
                     {
-                        return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                        return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false });
                     }
                 }
                 else
                 {
-                    return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                    return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false });
                 }
 
             }
             catch (Exception e)
             {
-                return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false }, JsonRequestBehavior.AllowGet);
+                return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false });
             }
         }
     }
