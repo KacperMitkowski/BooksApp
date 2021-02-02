@@ -8,7 +8,9 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Mvc;
 using WebAPI.Helpers;
+using WebAPI.Helpers.Enum;
 using WebAPI.Models;
+using HttpPostAttribute = System.Web.Http.HttpPostAttribute;
 
 namespace WebAPI.Controllers
 {
@@ -53,10 +55,47 @@ namespace WebAPI.Controllers
             // add author details
             author.password = hashedPassword;
             author.group = group;
-            author.status = "ACTIVE";
+            author.status = StatusesEnum.ACTIVE.ToString();
 
             db.SaveChanges();
             return Json(new { registrationSuccess = true });
+        }
+
+        // POST api/login
+        [HttpPost]
+        public IHttpActionResult Login(author author)
+        {
+            try
+            {
+                if (author == null || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
+                {
+                    return Json(new { errorMessage = "Nie wprowadzono loginu lub hasła", loginSuccess = false });
+                }
+
+                if (db.author.Any(x => x.login == author.login))
+                {
+                    string hashedPassword = db.author.FirstOrDefault(x => x.login == author.login).password;
+                    long authorId = db.author.FirstOrDefault(x => x.login == author.login).author_id;
+                    if (PasswordHelper.VerifyPassword(author.password, hashedPassword))
+                    {
+                        string token = JWTHelper.GenerateToken(author.login);
+                        return Json(new { loginSuccess = true, token = token, author = author.login, authorId = authorId });
+                    }
+                    else
+                    {
+                        return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false });
+                    }
+                }
+                else
+                {
+                    return Json(new { errorMessage = "Błędny login lub hasło", loginSuccess = false });
+                }
+
+            }
+            catch (Exception e)
+            {
+                return Json(new { errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne", loginSuccess = false });
+            }
         }
     }
 }

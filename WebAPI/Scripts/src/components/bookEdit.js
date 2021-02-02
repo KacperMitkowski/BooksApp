@@ -28,7 +28,7 @@ export default class BookEdit extends Component {
         let genreId = document.getElementById("genre-id").value;
         let bookId = document.getElementById("book-id").value;
 
-        fetch("/api/apiBook", {
+        fetch("/api/apiBook/put", {
             method: 'PUT',
             headers: new Headers({
                 'Content-Type': 'application/json',
@@ -170,7 +170,7 @@ export default class BookEdit extends Component {
     }
 
     componentDidMount() {
-        fetch(`/api/apiGenre`, {
+        fetch(`/api/apiGenre/get`, {
             headers: new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`

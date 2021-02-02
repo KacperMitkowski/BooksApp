@@ -26,7 +26,7 @@ export default class BookCreate extends Component {
         let authorId = document.getElementById("author-id").value;
         let genreId = document.getElementById("genre-id").value;
 
-        fetch("/api/apiBook", {
+        fetch("/api/apiBook/post", {
             method: 'POST',
             headers: new Headers({
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`,
@@ -63,7 +63,6 @@ export default class BookCreate extends Component {
         if (token && author && authorId && this.state.bookGenres) {
             return (
                 <React.Fragment>
-                    
                     <div className="row mb-5">
                         <div className="col-12 text-center">
                             <a className="btn btn-danger btn-lg" href="/">Powrót</a>
@@ -144,7 +143,7 @@ export default class BookCreate extends Component {
     }
 
     componentDidMount() {
-        fetch(`/api/apiGenre`, {
+        fetch(`/api/apiGenre/get`, {
             headers: new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`

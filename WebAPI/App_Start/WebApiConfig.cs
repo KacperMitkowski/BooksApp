@@ -15,8 +15,9 @@ namespace WebAPI
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
+                // routeTemplate: "api/{controller}/{id}",
                 name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
+                routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
         }

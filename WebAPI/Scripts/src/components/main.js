@@ -75,7 +75,7 @@ export default class Main extends Component {
     }
 
     componentDidMount() {
-        fetch(`/api/apiBook`, {
+        fetch(`/api/apiBook/get`, {
             headers: new Headers({
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
             })
@@ -109,7 +109,7 @@ export default class Main extends Component {
 
     handleDelete(book_id) {
         if (confirm("Usunąć książkę?")) {
-            fetch(`/api/apiBook/${book_id}`, {
+            fetch(`/api/apiBook/delete/${book_id}`, {
                 method: 'DELETE',
                 headers: new Headers({
                     'Content-Type': 'application/json',

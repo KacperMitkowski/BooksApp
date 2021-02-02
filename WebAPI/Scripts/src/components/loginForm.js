@@ -18,7 +18,7 @@ export default class LoginForm extends Component {
         let password = document.getElementById("password").value;
 
 
-        fetch("AuthorLogin/Login", {
+        fetch("/api/apiAuthor/login", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

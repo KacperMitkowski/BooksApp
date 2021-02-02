@@ -34,7 +34,7 @@ namespace WebAPI.Controllers
 
                     if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_access"))
                     {
-                        var books = db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == "ACTIVE").ToList();
+                        var books = db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == StatusesEnum.ACTIVE.ToString()).ToList();
 
                         return Json(new { books = books }, new JsonSerializerSettings()
                         {
