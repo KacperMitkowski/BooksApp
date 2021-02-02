@@ -22,7 +22,7 @@ namespace WebAPI.Controllers
             try
             {
                 // if empty data
-                if (author == null || author.first_name == null || author.last_name == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
+                if (author == null || string.IsNullOrWhiteSpace(author.first_name) || string.IsNullOrWhiteSpace(author.last_name) || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
                 {
                     string result = JsonConvert.SerializeObject(new
                     {
@@ -37,18 +37,15 @@ namespace WebAPI.Controllers
                 List<author> authorsFromDb = db.author.Select(x => x).ToList();
                 if (authorsFromDb != null)
                 {
-                    foreach (var authorFromDb in authorsFromDb)
+                    if (authorsFromDb.Any(x => x.login.ToLower().Trim() == author.login.ToLower().Trim()))
                     {
-                        if (authorFromDb.login == author.login)
+                        string result = JsonConvert.SerializeObject(new
                         {
-                            string result = JsonConvert.SerializeObject(new
-                            {
-                                errorMessage = "Istnieje już autor o tym loginie",
-                                registrationSuccess = false
-                            });
+                            errorMessage = "Istnieje już autor o tym loginie",
+                            registrationSuccess = false
+                        });
 
-                            return result;
-                        }
+                        return result;
                     }
                 }
 
