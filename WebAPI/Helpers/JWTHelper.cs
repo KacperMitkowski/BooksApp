@@ -10,16 +10,19 @@ namespace BooksApp.Helpers
 {
     public static class JWTHelper
     {
-        private static string Secret = "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ==";
+        // private static string Secret = "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ==";
         public static string GenerateToken(string login)
         {
-            byte[] key = Convert.FromBase64String(Secret);
+            Environment.SetEnvironmentVariable("Secret", "XCAP05H6LoKvbRRa/QkqLNMI7cOHguaRyHzyg7n5qEkGjQmtBhz4SzYh4Fqwjyi3KJHlSXKPwVu2+bXr6CtpgQ==");
+            int espirationTimeInMinutes = 30;
+
+            byte[] key = Convert.FromBase64String(Environment.GetEnvironmentVariable("Secret"));
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {new Claim(ClaimTypes.Name, login)}),
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                SigningCredentials = new SigningCredentials(securityKey,SecurityAlgorithms.HmacSha256Signature)
+                Subject = new ClaimsIdentity(new[] { new Claim(ClaimTypes.Name, login) }),
+                Expires = DateTime.UtcNow.AddMinutes(espirationTimeInMinutes),
+                SigningCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature)
             };
 
             JwtSecurityTokenHandler handler = new JwtSecurityTokenHandler();
@@ -34,8 +37,10 @@ namespace BooksApp.Helpers
                 JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
                 JwtSecurityToken jwtToken = (JwtSecurityToken)tokenHandler.ReadToken(token);
                 if (jwtToken == null)
+                {
                     return null;
-                byte[] key = Convert.FromBase64String(Secret);
+                }
+                byte[] key = Convert.FromBase64String(Environment.GetEnvironmentVariable("Secret"));
                 TokenValidationParameters parameters = new TokenValidationParameters()
                 {
                     RequireExpirationTime = true,
@@ -44,8 +49,7 @@ namespace BooksApp.Helpers
                     IssuerSigningKey = new SymmetricSecurityKey(key)
                 };
                 SecurityToken securityToken;
-                ClaimsPrincipal principal = tokenHandler.ValidateToken(token,
-                      parameters, out securityToken);
+                ClaimsPrincipal principal = tokenHandler.ValidateToken(token, parameters, out securityToken);
                 return principal;
             }
             catch (Exception e)
@@ -59,7 +63,9 @@ namespace BooksApp.Helpers
             string username = null;
             ClaimsPrincipal principal = GetPrincipal(token);
             if (principal == null)
+            {
                 return null;
+            }
             ClaimsIdentity identity = null;
             try
             {
