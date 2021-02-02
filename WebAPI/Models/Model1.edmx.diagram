@@ -17,13 +17,13 @@
         <AssociationConnector Association="KMdbModel.FK_log_admin" />
         <AssociationConnector Association="KMdbModel.FK_book_genre" />
         <AssociationConnector Association="KMdbModel.FK_log_book" />
-        <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="3" PointY="4.25" />
         <EntityTypeShape EntityType="KMdbModel.group" Width="1.5" PointX="0.75" PointY="7.75" />
         <AssociationConnector Association="KMdbModel.FK_admin_group_group" />
+        <AssociationConnector Association="KMdbModel.FK_group_setting_group" />
+        <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="3" PointY="4.25" />
         <AssociationConnector Association="KMdbModel.FK_author_group" />
         <AssociationConnector Association="KMdbModel.FK_book_author" />
         <AssociationConnector Association="KMdbModel.FK_log_author" />
-        <AssociationConnector Association="KMdbModel.FK_group_setting_group" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

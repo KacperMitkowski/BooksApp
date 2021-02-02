@@ -64,10 +64,17 @@ export default class Main extends Component {
                                     </tr>
                                 )
                             }) :
-                                <h1>Autor nie posiada żadnych książek</h1>
+                                null
                             }
                         </tbody>
                     </table>
+
+                    {this.state.books && this.state.books.length == 0 ?
+                        <div class="alert alert-primary" role="alert">
+                            Ten autor nie ma żadnych książek
+                                </div>
+                        : null}
+
                 </React.Fragment>
             );
         }

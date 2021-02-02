@@ -32,7 +32,7 @@ namespace WebAPI.Models
         public virtual DbSet<setting> setting { get; set; }
         public virtual DbSet<book> book { get; set; }
         public virtual DbSet<log> log { get; set; }
-        public virtual DbSet<author> author { get; set; }
         public virtual DbSet<group> group { get; set; }
+        public virtual DbSet<author> author { get; set; }
     }
 }
