@@ -144,7 +144,12 @@ export default class BookCreate extends Component {
     }
 
     componentDidMount() {
-        fetch(`/api/apiGenre`)
+        fetch(`/api/apiGenre`, {
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
+                })
+            })
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {
@@ -154,9 +159,11 @@ export default class BookCreate extends Component {
                 return response.json();
             })
             .then(data => {
-                this.setState({
-                    bookGenres: JSON.parse(data)
-                })
+                if (data.genres) {
+                    this.setState({
+                        bookGenres: data.genres
+                    });
+                }
             });
     }
 }

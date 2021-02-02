@@ -30,10 +30,10 @@ export default class BookEdit extends Component {
 
         fetch("/api/apiBook", {
             method: 'PUT',
-            headers: {
+            headers: new Headers({
                 'Content-Type': 'application/json',
                 'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
-            },
+            }),
             body: JSON.stringify({
                 book_id: bookId,
                 genre_id: genreId,
@@ -170,7 +170,12 @@ export default class BookEdit extends Component {
     }
 
     componentDidMount() {
-        fetch(`/api/apiGenre`)
+        fetch(`/api/apiGenre`, {
+            headers: new Headers({
+                'Content-Type': 'application/json',
+                'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
+            })
+        })
             .then(response => {
                 if (response.status > 400) {
                     return this.setState(() => {
@@ -180,9 +185,11 @@ export default class BookEdit extends Component {
                 return response.json();
             })
             .then(data => {
-                this.setState({
-                    bookGenres: JSON.parse(data)
-                })
+                if (data.genres) {
+                    this.setState({
+                        bookGenres: data.genres
+                    });
+                }
             });
     }
 }

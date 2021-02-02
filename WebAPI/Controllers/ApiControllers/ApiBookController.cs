@@ -32,7 +32,7 @@ namespace WebAPI.Controllers
                     var groupId = db.author.FirstOrDefault(x => x.login == authorFromToken).group_id;
                     List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
 
-                    if (authorFromToken != null && loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_access"))
+                    if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_access"))
                     {
                         var books = db.author.Where(x => x.login == authorFromToken).FirstOrDefault().book.Where(x => x.status == "ACTIVE").ToList();
 

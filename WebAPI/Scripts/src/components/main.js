@@ -86,11 +86,9 @@ export default class Main extends Component {
                         return { error: "Something went wrong!" };
                     });
                 }
-                console.log(response);
                 return response.json();
             })
             .then(data => {
-                console.log(data);
                 this.setState({
                     books: data.books
                 })
@@ -113,14 +111,13 @@ export default class Main extends Component {
         if (confirm("Usunąć książkę?")) {
             fetch(`/api/apiBook/${book_id}`, {
                 method: 'DELETE',
-                headers: {
+                headers: new Headers({
                     'Content-Type': 'application/json',
                     'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
-                }
+                })
             })
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data);
                     if (data.bookDeleteSuccess == true) {
                         alert("Udane usunięcie książki");
                         window.location = "/";
