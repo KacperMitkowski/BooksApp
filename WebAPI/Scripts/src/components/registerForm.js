@@ -6,8 +6,6 @@ export default class RegisterForm extends Component {
         super(props);
         this.state = {
             errorMessage: null,
-            author: null,
-            registrationSuccess: false
         };
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -34,17 +32,17 @@ export default class RegisterForm extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                let result = JSON.parse(data);
-                if (result.errorMessage) {
+                console.log(data);
+                if (data.errorMessage && data.registrationSuccess == false) {
                     this.setState({
-                        errorMessage: result.errorMessage,
+                        errorMessage: data.errorMessage,
                     })
                 }
                 else {
                     alert("Pomyślna rejestracja użytkownika");
                     window.location = "/";
                 }
-            }).catch(error => this.setState({ errorMessages: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
+            }).catch(error => this.setState({ errorMessage: ["Wystąpił błąd. Przepraszamy za kłopoty techniczne"] }));
     }
 
     render() {
