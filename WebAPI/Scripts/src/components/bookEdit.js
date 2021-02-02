@@ -63,13 +63,13 @@ export default class BookEdit extends Component {
 
     render() {
         let books = JSON.parse(sessionStorage.getItem("books"));
-        let authors = JSON.parse(sessionStorage.getItem("allAuthors"));
         let bookId = this.props.match.params.id;
+        let authorId = sessionStorage.getItem("authorId");
         let token = sessionStorage.getItem("token");
 
         for (let book of books) {
             if (book.book_id == bookId && token && this.state.flag == true) {
-
+                
                 this.setState({
                     title: book.title,
                     authorFirstName: book.author.first_name,
@@ -84,7 +84,7 @@ export default class BookEdit extends Component {
         }
 
         for (let book of books) {
-            if (book.book_id == bookId && token && this.state.bookGenres && authors) {
+            if (book.book_id == bookId && token && this.state.bookGenres) {
                 return (
                     <React.Fragment>
                         <div className="row mb-5">
@@ -108,27 +108,11 @@ export default class BookEdit extends Component {
                                 </div>
                             </div>
                             <form onSubmit={this.handleSubmit} id="editBookForm">
+                                <input id="author-id" type="text" value={authorId} hidden />
                                 <div class="form-row mt-5 mb-5">
                                     <div class="col">
                                         <label for="title">Tytuł</label>
                                         <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-                                    </div>
-                                    <div class="col">
-                                        <label for="author-id">Author</label>
-                                        <select id="author-id" className="form-control form-control-sm">
-                                            {authors.map((author, i) => {
-                                                if (author.login == sessionStorage.getItem("author")) {
-                                                    return (
-                                                        <option selected value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
-                                                    )
-                                                }
-                                                else {
-                                                    return (
-                                                        <option value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
-                                                    )
-                                                }
-                                            })}
-                                        </select>
                                     </div>
                                 </div>
                                 <div class="form-row mt-5 mb-5">

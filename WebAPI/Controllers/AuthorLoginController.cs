@@ -18,7 +18,6 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult Login([Bind(Include = "login,password")] author author)
         {
-
             try
             {
                 if (author == null || author.login == null || author.password == null || string.IsNullOrWhiteSpace(author.login) || string.IsNullOrWhiteSpace(author.password))
@@ -29,30 +28,11 @@ namespace WebAPI.Controllers
                 if (db.author.Any(x => x.login == author.login))
                 {
                     string hashedPassword = db.author.FirstOrDefault(x => x.login == author.login).password;
+                    long authorId = db.author.FirstOrDefault(x => x.login == author.login).author_id;
                     if (PasswordHelper.VerifyPassword(author.password, hashedPassword))
                     {
                         string token = JWTHelper.GenerateToken(author.login);
-
-                        string allAuthors = JsonConvert.SerializeObject(db.author.ToList(),
-                            new JsonSerializerSettings()
-                            {
-                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                            });
-
-                        List<author> authors = db.author.ToList();
-                        return Json(new { loginSuccess = true, token = token, author = author.login });
-
-                        /*
-                        string token = JWTHelper.GenerateToken(author.login);
-
-                        string allAuthors = JsonConvert.SerializeObject(db.author.ToList(),
-                            new JsonSerializerSettings()
-                            {
-                                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
-                            });
-
-                        return Json(new { loginSuccess = true, token = token, author = author.login, allAuthors = allAuthors }, JsonRequestBehavior.AllowGet);
-                        */
+                        return Json(new { loginSuccess = true, token = token, author = author.login, authorId = authorId });
                     }
                     else
                     {

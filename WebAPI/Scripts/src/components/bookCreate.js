@@ -59,12 +59,14 @@ export default class BookCreate extends Component {
     }
 
     render() {
-        // let authors = JSON.parse(sessionStorage.getItem("allAuthors"));
         let token = sessionStorage.getItem("token");
+        let author = sessionStorage.getItem("author");
+        let authorId = sessionStorage.getItem("authorId");
 
-        if (token && this.state.bookGenres) {
+        if (token && author && authorId && this.state.bookGenres) {
             return (
                 <React.Fragment>
+                    
                     <div className="row mb-5">
                         <div className="col-12 text-center">
                             <a className="btn btn-danger btn-lg" href="/">Powrót</a>
@@ -84,20 +86,11 @@ export default class BookCreate extends Component {
                             </div>
                         </div>
                         <form onSubmit={this.handleSubmit} id="createBookForm">
+                            <input id="author-id" type="text" value={authorId} hidden />
                             <div class="form-row mt-5 mb-5">
                                 <div class="col">
                                     <label for="title">Tytuł</label>
                                     <input type="text" id="title" class="form-control" placeholder="Tytuł" value={this.state.title} onChange={e => this.setState({ title: e.target.value })} />
-                                </div>
-                                <div class="col">
-                                    <label for="author-id">Author</label>
-                                    <select id="author-id" className="form-control form-control-sm">
-
-                                        <option value={author.author_id}>{author.first_name} {author.last_name}</option>
-                                        
-                                        
-                                        
-                                    </select>
                                 </div>
                             </div>
                             <div class="form-row mt-5 mb-5">

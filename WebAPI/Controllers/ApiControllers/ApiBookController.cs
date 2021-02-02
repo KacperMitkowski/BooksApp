@@ -52,13 +52,6 @@ namespace WebAPI.Controllers
             return null;
         }
 
-        // GET api/apiBook/5
-        public string Get(int id)
-        {
-
-            return "value";
-        }
-
         // POST api/apiBook
         public bool Post(book book)
         {

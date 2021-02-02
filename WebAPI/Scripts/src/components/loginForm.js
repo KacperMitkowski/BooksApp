@@ -32,9 +32,10 @@ export default class LoginForm extends Component {
             .then(data => {
                 console.log(data);
                 if (data.token && data.author) {
+                    console.log(data);
                     sessionStorage.setItem("token", data.token);
                     sessionStorage.setItem("author", data.author);
-                    sessionStorage.setItem("allAuthors", data.allAuthors);
+                    sessionStorage.setItem("authorId", data.authorId);
                     alert("Pomyślne logowanie");
                     window.location = "/";
                 }
