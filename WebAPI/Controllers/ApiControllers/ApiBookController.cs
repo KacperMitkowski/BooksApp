@@ -9,6 +9,7 @@ using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Mvc;
 using WebAPI.Helpers;
+using WebAPI.Helpers.Enum;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -64,7 +65,7 @@ namespace WebAPI.Controllers
 
                 if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_create"))
                 {
-                    book.status = "ACTIVE";
+                    book.status = StatusesEnum.ACTIVE.ToString();
                     var newBook = db.book.Add(book);
 
                     var log = db.log.Add(new log()
@@ -154,7 +155,7 @@ namespace WebAPI.Controllers
 
                 if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_delete"))
                 {
-                    book.status = "INACTIVE";
+                    book.status = StatusesEnum.INACTIVE.ToString();
                     db.Entry(book).State = System.Data.Entity.EntityState.Modified;
 
                     var log = db.log.Add(new log()

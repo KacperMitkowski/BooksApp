@@ -185,7 +185,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Helpers\LogTypesEnum.cs" />
+    <Compile Include="Helpers\Enum\LogTypesEnum.cs" />
+    <Compile Include="Helpers\Enum\StatusesEnum.cs" />
     <Compile Include="Helpers\JWTHelper.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Models\admin.cs">
