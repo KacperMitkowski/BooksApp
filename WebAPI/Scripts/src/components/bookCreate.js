@@ -25,10 +25,6 @@ export default class BookCreate extends Component {
         let isbn = document.getElementById("isbn").value;
         let authorId = document.getElementById("author-id").value;
         let genreId = document.getElementById("genre-id").value;
-        let obj = {
-            author: sessionStorage.getItem("author"),
-            token: sessionStorage.getItem("token")
-        }
 
         fetch("/api/apiBook", {
             method: 'POST',

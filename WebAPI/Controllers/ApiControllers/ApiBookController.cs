@@ -83,59 +83,53 @@ namespace WebAPI.Controllers
         }
 
         // PUT api/apiBook/5
-        public bool Put(book book)
+        public IHttpActionResult Put(book book)
         {
-            try
+            if (book == null || book.book_id == 0 || string.IsNullOrWhiteSpace(book.title) || string.IsNullOrWhiteSpace(book.description) || string.IsNullOrWhiteSpace(book.publication_date.ToString()) || string.IsNullOrWhiteSpace(book.isbn))
             {
-                if (book == null || book.book_id == 0 || string.IsNullOrWhiteSpace(book.title) || string.IsNullOrWhiteSpace(book.description) || string.IsNullOrWhiteSpace(book.publication_date.ToString()) || string.IsNullOrWhiteSpace(book.isbn))
-                {
-                    return false;
-                }
-                var bookFromDb = db.book.FirstOrDefault(x => x.book_id == book.book_id);
-                if (bookFromDb == null)
-                {
-                    return false;
-                }
-                var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
-                AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
+                return Json(new { bookCreationSuccess = false, errorMessage = "Braki w następujących polach: tytuł, opis, data publikacji, isbn" });
+            }
+            var bookFromDb = db.book.FirstOrDefault(x => x.book_id == book.book_id);
+            if (bookFromDb == null)
+            {
+                return Json(new { bookCreationSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
+            }
+            // var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+            // AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
 
-                if (cred != null)
+            var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+            if (credentials != null)
+            {
+                var loggedAuthor = credentials.Split('=')[0];
+                var token = credentials.Split('=')[1];
+                var authorFromToken = JWTHelper.ValidateToken(token);
+                var groupId = db.author.FirstOrDefault(x => x.login == authorFromToken).group_id;
+                List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+
+                if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_edit"))
                 {
-                    string authorFromToken = JWTHelper.ValidateToken(cred.token);
-                    if (authorFromToken != null)
+                    bookFromDb.author_id = book.author_id;
+                    bookFromDb.genre_id = book.genre_id;
+                    bookFromDb.title = book.title;
+                    bookFromDb.description = book.description;
+                    bookFromDb.publication_date = book.publication_date;
+                    bookFromDb.isbn = book.isbn;
+                    db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
+
+                    var log = db.log.Add(new log()
                     {
-                        var groupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).group_id;
-                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+                        book_id = book.book_id,
+                        author_id = book.author_id,
+                        event_name = LogTypesEnum.EDIT.ToString(),
+                        event_date = DateTime.Now
+                    });
 
-                        if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_edit"))
-                        {
-                            bookFromDb.author_id = book.author_id;
-                            bookFromDb.genre_id = book.genre_id;
-                            bookFromDb.title = book.title;
-                            bookFromDb.description = book.description;
-                            bookFromDb.publication_date = book.publication_date;
-                            bookFromDb.isbn = book.isbn;
-                            db.Entry(bookFromDb).State = System.Data.Entity.EntityState.Modified;
-
-                            var log = db.log.Add(new log()
-                            {
-                                book_id = book.book_id,
-                                author_id = book.author_id,
-                                event_name = LogTypesEnum.EDIT.ToString(),
-                                event_date = DateTime.Now
-                            });
-
-                            db.SaveChanges();
-                            return true;
-                        }
-                    }
+                    db.SaveChanges();
+                    return Json(new { bookEditSuccess = true });
                 }
-                return false;
+
             }
-            catch (Exception e)
-            {
-                return false;
-            }
+            return Json(new { bookCreationSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
         }
 
         // DELETE api/apiBook/5

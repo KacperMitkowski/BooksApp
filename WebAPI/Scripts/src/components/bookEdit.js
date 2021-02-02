@@ -27,16 +27,12 @@ export default class BookEdit extends Component {
         let authorId = document.getElementById("author-id").value;
         let genreId = document.getElementById("genre-id").value;
         let bookId = document.getElementById("book-id").value;
-        let obj = {
-            author: sessionStorage.getItem("author"),
-            token: sessionStorage.getItem("token")
-        }
 
         fetch("/api/apiBook", {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': JSON.stringify(obj)
+                'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
             },
             body: JSON.stringify({
                 book_id: bookId,
@@ -50,14 +46,16 @@ export default class BookEdit extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                if (data == true) {
+                console.log(data);
+                if (data.bookEditSuccess == true) {
                     alert("Udana edycja książki");
                     window.location = "/";
                 }
-                this.setState({
-                    errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
-
-                })
+                else {
+                    this.setState({
+                        errorMessage: data.errorMessage,
+                    })
+                }
             }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
     }
 
