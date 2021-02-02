@@ -59,10 +59,10 @@ export default class BookCreate extends Component {
     }
 
     render() {
-        let authors = JSON.parse(sessionStorage.getItem("allAuthors"));
+        // let authors = JSON.parse(sessionStorage.getItem("allAuthors"));
         let token = sessionStorage.getItem("token");
 
-        if (token && this.state.bookGenres && authors) {
+        if (token && this.state.bookGenres) {
             return (
                 <React.Fragment>
                     <div className="row mb-5">
@@ -92,11 +92,11 @@ export default class BookCreate extends Component {
                                 <div class="col">
                                     <label for="author-id">Author</label>
                                     <select id="author-id" className="form-control form-control-sm">
-                                        {authors.map((author, i) => {
-                                            return (
-                                                <option value={author.author_id}>{`${author.first_name} ${author.last_name}`}</option>
-                                            )
-                                        })}
+
+                                        <option value={author.author_id}>{author.first_name} {author.last_name}</option>
+                                        
+                                        
+                                        
                                     </select>
                                 </div>
                             </div>

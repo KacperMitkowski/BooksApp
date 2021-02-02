@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
 using System.Web.Mvc;
+using WebAPI.Helpers;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -88,7 +89,7 @@ namespace WebAPI.Controllers
                             {
                                 book_id = book.book_id,
                                 author_id = book.author_id,
-                                event_name = "CREATE",
+                                event_name = LogTypesEnum.CREATE.ToString(),
                                 event_date = DateTime.Now
                             });
 
@@ -145,7 +146,7 @@ namespace WebAPI.Controllers
                             {
                                 book_id = book.book_id,
                                 author_id = book.author_id,
-                                event_name = "EDIT",
+                                event_name = LogTypesEnum.EDIT.ToString(),
                                 event_date = DateTime.Now
                             });
 
@@ -198,7 +199,8 @@ namespace WebAPI.Controllers
                             var log = db.log.Add(new log()
                             {
                                 book_id = book.book_id,
-                                event_name = "DELETE",
+                                author_id = book.author_id,
+                                event_name = LogTypesEnum.DELETE.ToString(),
                                 event_date = DateTime.Now
                             });
 

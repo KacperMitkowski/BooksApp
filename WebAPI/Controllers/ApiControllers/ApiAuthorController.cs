@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using WebAPI.Helpers;
 using WebAPI.Models;
 
 namespace WebAPI.Controllers
@@ -37,7 +38,7 @@ namespace WebAPI.Controllers
                 List<author> authorsFromDb = db.author.Select(x => x).ToList();
                 if (authorsFromDb != null)
                 {
-                    if (authorsFromDb.Any(x => x.login.ToLower().Trim() == author.login.ToLower().Trim()))
+                    if (authorsFromDb.Any(x => x.login == author.login))
                     {
                         string result = JsonConvert.SerializeObject(new
                         {
@@ -76,7 +77,7 @@ namespace WebAPI.Controllers
                     var newLog = db.log.Add(new log()
                     {
                         author = author,
-                        event_name = "CREATE",
+                        event_name = LogTypesEnum.CREATE.ToString(),
                         event_date = DateTime.Now
                     });
                     db.SaveChanges();
