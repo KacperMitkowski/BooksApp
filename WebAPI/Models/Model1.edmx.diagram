@@ -4,23 +4,23 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="56febd7c648548bc8aa73f1fd34f9ea4" Name="Diagram1" ZoomLevel="64">
-        <EntityTypeShape EntityType="KMdbModel.admin" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="KMdbModel.admin_group" Width="1.5" PointX="3" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KMdbModel.genre" Width="1.5" PointX="0.75" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="KMdbModel.group_setting" Width="1.5" PointX="3" PointY="11.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="KMdbModel.setting" Width="1.5" PointX="0.75" PointY="11.375" IsExpanded="true" />
+      <Diagram DiagramId="56febd7c648548bc8aa73f1fd34f9ea4" Name="Diagram1" ZoomLevel="73">
+        <EntityTypeShape EntityType="KMdbModel.admin" Width="1.5" PointX="7.75" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KMdbModel.admin_group" Width="1.5" PointX="7.625" PointY="5.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KMdbModel.genre" Width="1.5" PointX="1" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="KMdbModel.group_setting" Width="1.5" PointX="11" PointY="2.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="KMdbModel.setting" Width="1.5" PointX="13.75" PointY="3" IsExpanded="true" />
         <AssociationConnector Association="KMdbModel.FK_admin_admin_group" ManuallyRouted="false" />
         <AssociationConnector Association="KMdbModel.FK_group_setting_setting" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="KMdbModel.book" Width="1.5" PointX="7.125" PointY="3.75" />
-        <EntityTypeShape EntityType="KMdbModel.log" Width="1.5" PointX="11.5" PointY="5.25" />
+        <EntityTypeShape EntityType="KMdbModel.book" Width="1.5" PointX="0.875" PointY="2.625" />
+        <EntityTypeShape EntityType="KMdbModel.log" Width="1.5" PointX="3.75" PointY="6.25" />
         <AssociationConnector Association="KMdbModel.FK_log_admin" />
         <AssociationConnector Association="KMdbModel.FK_book_genre" />
         <AssociationConnector Association="KMdbModel.FK_log_book" />
-        <EntityTypeShape EntityType="KMdbModel.group" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="KMdbModel.group" Width="1.5" PointX="7.75" PointY="2.625" />
         <AssociationConnector Association="KMdbModel.FK_admin_group_group" />
         <AssociationConnector Association="KMdbModel.FK_group_setting_group" />
-        <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="3" PointY="4.25" />
+        <EntityTypeShape EntityType="KMdbModel.author" Width="1.5" PointX="4.375" PointY="2.375" />
         <AssociationConnector Association="KMdbModel.FK_author_group" />
         <AssociationConnector Association="KMdbModel.FK_book_author" />
         <AssociationConnector Association="KMdbModel.FK_log_author" />
