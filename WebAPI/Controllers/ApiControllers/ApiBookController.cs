@@ -29,9 +29,9 @@ namespace WebAPI.Controllers
 
                 if (authorFromToken != null)
                 {
-                    long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
-                    long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
-                    List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+                    //long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                    //long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                    List<setting> settings = db.group.FirstOrDefault(x => x.group_id == 0).group_setting.Select(x => x.setting).ToList();
 
                     if (authorFromToken != null && loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_access"))
                     {
@@ -69,9 +69,9 @@ namespace WebAPI.Controllers
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
                     if (authorFromToken != null)
                     {
-                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
-                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
-                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+                        // long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        // long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == 0).group_setting.Select(x => x.setting).ToList();
 
                         if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_create"))
                         {
@@ -121,9 +121,9 @@ namespace WebAPI.Controllers
                     string authorFromToken = JWTHelper.ValidateToken(cred.token);
                     if (authorFromToken != null)
                     {
-                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
-                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
-                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+                        // long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        // long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == 0).group_setting.Select(x => x.setting).ToList();
 
                         if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_edit"))
                         {
@@ -180,9 +180,9 @@ namespace WebAPI.Controllers
                     {
 
 
-                        long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
-                        long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
-                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+                        // long? authorGroupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).author_group_id;
+                        // long groupId = db.author_group.FirstOrDefault(x => x.author_group_id == authorGroupId).group_id;
+                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == 0).group_setting.Select(x => x.setting).ToList();
 
                         if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_delete"))
                         {

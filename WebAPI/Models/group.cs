@@ -18,7 +18,7 @@ namespace WebAPI.Models
         public group()
         {
             this.admin_group = new HashSet<admin_group>();
-            this.author_group = new HashSet<author_group>();
+            this.author = new HashSet<author>();
             this.group_setting = new HashSet<group_setting>();
         }
     
@@ -28,7 +28,7 @@ namespace WebAPI.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<admin_group> admin_group { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<author_group> author_group { get; set; }
+        public virtual ICollection<author> author { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<group_setting> group_setting { get; set; }
     }

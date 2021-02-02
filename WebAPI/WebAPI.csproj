@@ -197,9 +197,6 @@
     <Compile Include="Models\author.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\author_group.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\AuthViewModel.cs" />
     <Compile Include="Models\book.cs">
       <DependentUpon>Model1.tt</DependentUpon>

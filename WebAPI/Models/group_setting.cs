@@ -18,7 +18,7 @@ namespace WebAPI.Models
         public long group_id { get; set; }
         public long setting_id { get; set; }
     
-        public virtual group group { get; set; }
         public virtual setting setting { get; set; }
+        public virtual group group { get; set; }
     }
 }

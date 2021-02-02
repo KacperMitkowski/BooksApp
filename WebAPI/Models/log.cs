@@ -24,7 +24,7 @@ namespace WebAPI.Models
         public string new_value { get; set; }
     
         public virtual admin admin { get; set; }
-        public virtual author author { get; set; }
         public virtual book book { get; set; }
+        public virtual author author { get; set; }
     }
 }

@@ -29,40 +29,34 @@ namespace WebAPI.Controllers
 
                 // if login exists in db
                 List<author> authorsFromDb = db.author.Select(x => x).ToList();
-                if (authorsFromDb != null)
+                if (authorsFromDb != null && authorsFromDb.Any(x => x.login == author.login))
                 {
-                    if (authorsFromDb.Any(x => x.login == author.login))
-                    {
-                        return Json(new { registrationSuccess = false, errorMessage = "Istnieje już autor o tym loginie" });
-                    }
+                    return Json(new { registrationSuccess = false, errorMessage = "Istnieje już autor o tym loginie" });
                 }
 
                 // if data ok, try hash password
                 var hashedPassword = PasswordHelper.HashPassword(author.password);
                 var groupForAuthor = db.group.FirstOrDefault(x => x.name == "Author");
-                // if problem in hashing password
+                // if problem in hashing password or getting group for author
                 if (hashedPassword == null || groupForAuthor == null)
                 {
                     return Json(new { registrationSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
                 }
 
-                author.password = hashedPassword;
-                var a = db.author.Add(author);
-
                 var group = db.group.FirstOrDefault(x => x.name == "Author");
-                var newAuthorGroup = db.author_group.Add(new author_group()
-                {
-                    author = a,
-                    group = group
-                });
-
                 var newLog = db.log.Add(new log()
                 {
                     author = author,
                     event_name = LogTypesEnum.CREATE.ToString(),
                     event_date = DateTime.Now
                 });
+
+                author.password = hashedPassword;
+                author.group = group;
+
                 db.SaveChanges();
+
+
                 return Json(new { registrationSuccess = true });
             }
             catch (Exception e)
