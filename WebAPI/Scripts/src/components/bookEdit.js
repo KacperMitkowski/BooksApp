@@ -46,7 +46,6 @@ export default class BookEdit extends Component {
         })
             .then(res => res.json())
             .then(data => {
-                console.log(data);
                 if (data.bookEditSuccess == true) {
                     alert("Udana edycja książki");
                     window.location = "/";

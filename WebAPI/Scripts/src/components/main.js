@@ -111,31 +111,26 @@ export default class Main extends Component {
 
     handleDelete(book_id) {
         if (confirm("Usunąć książkę?")) {
-            let obj = {
-                author: sessionStorage.getItem("author"),
-                token: sessionStorage.getItem("token")
-            }
-
             fetch(`/api/apiBook/${book_id}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': JSON.stringify(obj)
+                    'Authorization': `${sessionStorage.getItem("author")}=${sessionStorage.getItem("token")}`
                 }
             })
                 .then(res => res.json())
                 .then(data => {
-                    if (data == true) {
+                    console.log(data);
+                    if (data.bookDeleteSuccess == true) {
                         alert("Udane usunięcie książki");
                         window.location = "/";
                     }
-                    this.setState({
-                        errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne",
-
-                    })
+                    else {
+                        this.setState({
+                            errorMessage: data.errorMessage
+                        })
+                    }
                 }).catch(error => this.setState({ errorMessage: "Wystąpił błąd. Przepraszamy za kłopoty techniczne" }))
-
-
         }
     }
 

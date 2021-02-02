@@ -92,10 +92,8 @@ namespace WebAPI.Controllers
             var bookFromDb = db.book.FirstOrDefault(x => x.book_id == book.book_id);
             if (bookFromDb == null)
             {
-                return Json(new { bookCreationSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
+                return Json(new { bookCreationSuccess = false, errorMessage = "Nie znaleziono książki" });
             }
-            // var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
-            // AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
 
             var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
             if (credentials != null)
@@ -133,56 +131,45 @@ namespace WebAPI.Controllers
         }
 
         // DELETE api/apiBook/5
-        public bool Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
-            try
+            if (id == 0)
             {
-                if (id == 0)
-                {
-                    return false;
-                }
-                book book = db.book.FirstOrDefault(x => x.book_id == id);
-                if (book == null)
-                {
-                    return false;
-                }
+                return Json(new { bookDeleteSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
+            }
+            book book = db.book.FirstOrDefault(x => x.book_id == id);
+            if (book == null)
+            {
+                return Json(new { bookDeleteSuccess = false, errorMessage = "Nie znaleziono książki" });
+            }
 
-                var credentialsJson = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
-                AuthViewModel cred = JsonConvert.DeserializeObject<AuthViewModel>(credentialsJson);
-                if (cred != null)
+            var credentials = Request.Headers.FirstOrDefault(x => x.Key.Equals("Authorization")).Value.ToList()[0];
+            if (credentials != null)
+            {
+                var loggedAuthor = credentials.Split('=')[0];
+                var token = credentials.Split('=')[1];
+                var authorFromToken = JWTHelper.ValidateToken(token);
+                var groupId = db.author.FirstOrDefault(x => x.login == authorFromToken).group_id;
+                List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
+
+                if (loggedAuthor == authorFromToken && settings.Any(x => x.name == "book_delete"))
                 {
-                    string authorFromToken = JWTHelper.ValidateToken(cred.token);
-                    if (authorFromToken != null)
+                    book.status = "INACTIVE";
+                    db.Entry(book).State = System.Data.Entity.EntityState.Modified;
+
+                    var log = db.log.Add(new log()
                     {
+                        book_id = book.book_id,
+                        author_id = book.author_id,
+                        event_name = LogTypesEnum.DELETE.ToString(),
+                        event_date = DateTime.Now
+                    });
 
-
-                        var groupId = db.author.FirstOrDefault(x => x.login.Trim().ToLower() == authorFromToken.Trim().ToLower()).group_id;
-                        List<setting> settings = db.group.FirstOrDefault(x => x.group_id == groupId).group_setting.Select(x => x.setting).ToList();
-
-                        if (authorFromToken != null && cred.author == authorFromToken && settings.Any(x => x.name == "book_delete"))
-                        {
-                            book.status = "INACTIVE";
-                            db.Entry(book).State = System.Data.Entity.EntityState.Modified;
-
-                            var log = db.log.Add(new log()
-                            {
-                                book_id = book.book_id,
-                                author_id = book.author_id,
-                                event_name = LogTypesEnum.DELETE.ToString(),
-                                event_date = DateTime.Now
-                            });
-
-                            db.SaveChanges();
-                            return true;
-                        }
-                    }
+                    db.SaveChanges();
+                    return Json(new { bookDeleteSuccess = true });
                 }
-                return false;
             }
-            catch (Exception e)
-            {
-                return false;
-            }
+            return Json(new { bookDeleteSuccess = false, errorMessage = "Wystąpił błąd. Przepraszamy za kłopoty techniczne" });
         }
     }
 }
